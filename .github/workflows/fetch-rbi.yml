@@ -1,0 +1,26 @@
+name: Fetch RBI documents
+# Manual run: Actions tab -> "Fetch RBI documents" -> Run workflow.
+# Downloads the PDFs listed in sources_manifest.csv, checks they are real PDFs, hashes them,
+# and commits them to raw/ together with download_log.jsonl.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: python3 -I scripts/fetch_rbi.py --manifest sources_manifest.csv --out raw || true
+      - name: Show log
+        run: cat raw/download_log.jsonl || echo "no log written"
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw
+          if ! git diff --cached --quiet; then
+            git commit -m "Add downloaded RBI documents and download log"
+            git push
+          fi

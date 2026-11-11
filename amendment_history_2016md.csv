@@ -1,0 +1,21 @@
+date,instrument,colour_rgb_on_page,colour_name,footnote_counts,what_changed_from_page_text
+2025-08-14,DOR.AML.REC.46/14.01.001/2025-26 (RBI/2025-26/75),"0,139,139",dark cyan,"~9 coloured runs; fn 2, 45, 52, 58, 66","FAQ link added; no onboarding/updation application rejected without application of mind, reasons recorded, persons with disabilities covered; CDD for occasional transactions of Rs 50,000 or more (single or connected); Aadhaar Face Authentication; liveness check must not exclude persons with special needs. Page title banner uses red, legend colour is dark cyan."
+2025-06-12,DOR.AML.REC.30/14.01.001/2025-26 (RBI/2025-26/51),"139,0,139",dark magenta,1 footnote,Para 38 periodic updation (per RBI amendment text). Little or no coloured body text found.
+2024-11-06,DOR.AML.REC.49/14.01.001/2024-25,"255,0,0",red,~57 coloured runs; 4 footnotes (fn 40..149),CKYCR-related: RE updates records within seven days of new information; KYC Identifier sought or retrieved from CKYCR for updation or verification; incomplete or outdated CKYCR records. Page also cites a corrigendum dated 2024-04-22. Red is also used by the page banner.
+2024-01-04,DOR.AML.REC.66/14.01.001/2023-24,"0,255,0",bright green,"2 runs; 1 inserted, 1 deleted (fn 20, 128)",Item xvii deleted; PEP Explanation (foreign public functions) edited.
+2023-10-17,DOR.AML.REC.44/14.01.001/2023-24,"218,112,214",orchid,"~166 runs; 29 amended, 3 inserted (up to fn 161)","Large change set (sample only): FATF-aligned CDD wording - beneficial ownership and control, whether customer acts for a beneficial owner, 10 percent thresholds, RBI may advise further action on ML/TF risk."
+2023-05-04,DOR.AML.REC.13/14.01.001/2023-24,"0,191,255",deep sky blue,"2 footnotes (fn 30, 156)",Not captured in this pass.
+2023-04-28,DOR.AML.REC.111/14.01.001/2023-24,"255,140,0",dark orange,"~105 runs; 29 amended, 30 inserted, 1 deleted (fn 1..107)","Large change set (sample only): Introduction and statutory powers rewritten (RBI Act 45JA/45K/45L, PSS Act, FEMA); Group and correspondent banking definitions; charitable-purpose clause."
+2021-05-10,DOR.AML.REC.No.15/14.01.001/2021-22,"255,20,147",deep pink,3 amended (fn 29..62),Not captured.
+2021-04-01,DOR.AML.BC.No.1/14.01.001/2021-22,"128,128,0",olive,1 footnote,Not captured.
+2021-03-23,DOR.AML.REC.48/14.01.001/2020-21,"139,0,0",dark red,2 footnotes,Not captured.
+2020-12-18,DOR.AML.BC.No.31/14.01.001/2020-21,"255,127,80",coral,1 footnote,Not captured.
+2020-04-20,DOR.AML.BC.No.66/14.01.001/2019-20,"138,43,226",blue violet,1 inserted (fn 76),Not captured.
+2020-04-01,not captured,"128,0,128",purple,none matched,In page legend; needs a manual look.
+2020-01-09,DOR.AML.BC.No.27/14.01.001/2019-20,"165,42,42",brown,"~65 runs; 14 amended, 6 inserted (fn 5..160)","Large change set (sample only): definitions of Aadhaar number, Certified Copy, Digital KYC, Digital Signature, Equivalent e-document, KYC Identifier."
+2019-08-09,not captured,"0,128,0",green,none matched,In page legend; needs a manual look.
+2019-05-29,DBR.AML.BC.No.39/14.01.001/2018-19,none in legend,,"7 amended, 6 inserted, 1 deleted (fn 6..129)",Footnotes only.
+2019-05-28,Gazette Notification G.S.R. 381(E),none in legend,,1 inserted (fn 75),PML Rules amendment.
+2018-04-20,Amendment dated 20 Apr 2018,none in legend,,"1 amended, 1 deleted (fn 82, 165)",
+2017-08-21,Gazette Notification G.S.R. 1038(E) (PML Third Amendment Rules),none in legend,,1 inserted (fn 74),
+2017-06-01,Gazette Notification G.S.R. 538(E) (PML Second Amendment Rules),none in legend,,1 amended (fn 83),
