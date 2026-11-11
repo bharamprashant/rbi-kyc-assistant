@@ -15,12 +15,14 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 
 STOP = set("""a an the of to in on for and or is are be by with as at from that this it its if any shall
 what which who whom how does do can may must should would not no per under into than then there their
-these those such other also all about i we you your our me my""".split())
+these those such other also all about i we you your our me my
+regulation regulations requirement requirements guideline guidelines norm norms rule rules tell explain please""".split())
 SYN_RAW = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadhar": ["aadhaar"],
        "ckyc": ["ckycr"], "kyc": ["kyc"], "ubo": ["beneficial", "owner"], "pep": ["politically", "exposed"],
        "edd": ["enhanced", "due", "diligence"], "sdd": ["simplified", "due", "diligence"],
        "cdd": ["customer", "due", "diligence"], "str": ["suspicious", "transaction"], "fiu": ["financial", "intelligence"],
-           "threshold": ["percent", "ownership"], "proprietorship": ["proprietary", "sole", "proprietor"], "sole": ["proprietary"],
+           "threshold": ["percent", "ownership"], "selfie": ["live", "photograph", "photo", "liveness"], "photo": ["photograph", "live"], "picture": ["photograph", "photo"],
+           "face": ["facial", "liveness", "photograph"], "liveness": ["spoof", "face", "live"], "facematch": ["face", "matching", "photograph"], "proprietorship": ["proprietary", "sole", "proprietor"], "sole": ["proprietary"],
            "retention": ["preservation", "maintenance", "years"], "retain": ["preservation", "maintenance"],
            "retained": ["preservation", "maintenance"], "preserved": ["maintenance", "years"], "keep": ["maintenance", "preservation"],
            "kept": ["maintenance", "preservation"], "store": ["maintenance", "preservation"], "stored": ["maintenance", "preservation"]}
