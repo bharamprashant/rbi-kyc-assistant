@@ -2,6 +2,9 @@
 
 A free, public Q&A tool over RBI's KYC Directions for the lending industry. It answers **what RBI says**, **what changed**, and **where to find it**, always with the paragraph, version and a link to the official RBI page. Scope is deliberately limited to **NBFCs** and **Commercial Banks**. Not legal advice; not affiliated with RBI.
 
+## Why this exists
+Lending teams keep asking the same questions: what does RBI say, has it changed, and does it apply to NBFCs or banks? The answers sit across a Master Direction, a repealed 2016 version, new 2025 Directions and amendment circulars, and general AI chat can state a wrong rule with full confidence. This tool answers only from the official text, cites the paragraph, shows what changed, and refuses when it has no evidence. Full story: [docs/HOW_IT_WAS_BUILT.md](docs/HOW_IT_WAS_BUILT.md) (problem, design decisions, architecture, evaluation, limits).
+
 ## How it works
 1. `raw_html/` holds saved copies of the official RBI pages (the evidence).
 2. `scripts/parse_directions.py` turns them into numbered paragraphs (`data/chunks.jsonl`), reading RBI's own footnotes and, for the 2016 page, its **colour legend** (each colour = an "Updated as on" date) so every paragraph knows which circular last changed it. `data/changes.jsonl` lists every change; `data/CHANGELOG.md` is the readable version.
