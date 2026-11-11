@@ -1,4 +1,4 @@
-"""Shared, testable request logic for the serverless endpoints (no framework, stdlib only).
+"""Shared, testable request logic for the serverless endpoints (moved from api/ so the runtime can always import it) (no framework, stdlib only).
 
 Security properties implemented here (see SECURITY.md):
   * strict input validation: method, content type, body size, length, control chars, whitelists
@@ -7,14 +7,12 @@ Security properties implemented here (see SECURITY.md):
   * no query text or client IP is logged
   * responses never echo raw user input; clients must render with textContent
 """
-import json, os, re, sys, time
+import json, os, re, time
 from collections import defaultdict, deque
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from core.search import Index                      # noqa: E402
-from core import changes as changes_mod            # noqa: E402
-from core import llm                               # noqa: E402
+from core.search import Index
+from core import changes as changes_mod
+from core import llm
 
 MAX_BODY = 2048
 MAX_QUERY = 400
