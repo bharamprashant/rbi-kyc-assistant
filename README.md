@@ -20,7 +20,7 @@ Details of what is and is not captured are in `sources_manifest.csv` (evidence l
 
 ## Run locally
 ```
-python3 -I -m unittest discover -s tests -v     # 26 tests
+python3 -I -m unittest discover -s tests -v     # 59 tests
 python3 -I scripts/parse_directions.py          # rebuild data/ from raw_html/
 python3 -I scripts/build_changelog.py
 ```
@@ -28,7 +28,7 @@ Deploy: import the repo in Vercel (no build step). See `SECURITY.md` for setting
 
 
 ## Questions, detailed answers and FAQs
-- `data/question_bank.json`: 84 curated questions, written in our own words from topics in public KYC FAQs (RBI's FAQs of 9 Jun 2025 and lender/bank FAQ pages). Tests require every one to be answered for both NBFCs and Commercial Banks.
+- `data/question_bank.json`: 86 curated questions, written in our own words from topics in public KYC FAQs (RBI's FAQs of 9 Jun 2025 and lender/bank FAQ pages). Tests require every one to be answered for both NBFCs and Commercial Banks.
 - Answers are extractive, never generated: key RBI passages with paragraph references, a **What changed** block (RBI footnotes and amendment circulars on the cited paragraphs), and an **Earlier position** block from the repealed 2016 Direction, clearly labelled historical.
 - `scripts/build_faqs.py` writes `data/faqs.json` (verified questions plus auto-generated "What changed" questions from the change registry). `scripts/refresh.py` re-runs it whenever RBI text changes, so the suggestions follow the data. User queries are never logged or used.
 
