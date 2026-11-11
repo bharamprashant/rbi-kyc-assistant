@@ -16,10 +16,13 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 STOP = set("""a an the of to in on for and or is are be by with as at from that this it its if any shall
 what which who whom how does do can may must should would not no per under into than then there their
 these those such other also all about i we you your our me my""".split())
-SYN = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadhar": ["aadhaar"],
+SYN_RAW = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadhar": ["aadhaar"],
        "ckyc": ["ckycr"], "kyc": ["kyc"], "ubo": ["beneficial", "owner"], "pep": ["politically", "exposed"],
        "edd": ["enhanced", "due", "diligence"], "sdd": ["simplified", "due", "diligence"],
-       "cdd": ["customer", "due", "diligence"], "str": ["suspicious", "transaction"], "fiu": ["financial", "intelligence"]}
+       "cdd": ["customer", "due", "diligence"], "str": ["suspicious", "transaction"], "fiu": ["financial", "intelligence"],
+           "retention": ["preservation", "maintenance", "years"], "retain": ["preservation", "maintenance"],
+           "retained": ["preservation", "maintenance"], "preserved": ["maintenance", "years"], "keep": ["maintenance", "preservation"],
+           "kept": ["maintenance", "preservation"], "store": ["maintenance", "preservation"], "stored": ["maintenance", "preservation"]}
 OUT_OF_SCOPE = [  # entity types the project deliberately does not cover
     (r"small\s+finance\s+bank|\bsfb\b", "Small Finance Banks"),
     (r"payments?\s+bank", "Payments Banks"),
@@ -48,6 +51,7 @@ def stem(w):
 
 
 ANCHORS = {stem(w) for w in ANCHOR_WORDS}
+SYN = {stem(k): v for k, v in SYN_RAW.items()}
 
 
 def tokens(text, keep_stop=False):
