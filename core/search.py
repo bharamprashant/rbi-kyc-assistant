@@ -20,6 +20,7 @@ SYN_RAW = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadh
        "ckyc": ["ckycr"], "kyc": ["kyc"], "ubo": ["beneficial", "owner"], "pep": ["politically", "exposed"],
        "edd": ["enhanced", "due", "diligence"], "sdd": ["simplified", "due", "diligence"],
        "cdd": ["customer", "due", "diligence"], "str": ["suspicious", "transaction"], "fiu": ["financial", "intelligence"],
+           "threshold": ["percent", "ownership"], "proprietorship": ["proprietary", "sole", "proprietor"], "sole": ["proprietary"],
            "retention": ["preservation", "maintenance", "years"], "retain": ["preservation", "maintenance"],
            "retained": ["preservation", "maintenance"], "preserved": ["maintenance", "years"], "keep": ["maintenance", "preservation"],
            "kept": ["maintenance", "preservation"], "store": ["maintenance", "preservation"], "stored": ["maintenance", "preservation"]}
@@ -55,7 +56,7 @@ SYN = {stem(k): v for k, v in SYN_RAW.items()}
 
 
 def tokens(text, keep_stop=False):
-    text = text.lower().replace("v-cip", "vcip").replace("e-kyc", "ekyc").replace("video kyc", "vcip")
+    text = text.lower().replace("walk-in", "walkin").replace("v-cip", "vcip").replace("e-kyc", "ekyc").replace("video kyc", "vcip")
     out = []
     for w in re.findall(r"[a-z0-9]+", text):
         if not keep_stop and (w in STOP or len(w) < 2):
@@ -138,6 +139,48 @@ class Index:
         if top[0] < MIN_SCORE or coverage < MIN_COVERAGE:
             return {"status": "refused", "reason": "I could not find text in the RBI KYC Directions that answers this. Try rephrasing, or check the Directions directly.", "results": []}
         return {"status": "answered", "coverage": round(coverage, 2), "results": [self.cite(self.chunks[i], s) for s, _, i in scored[:k]]}
+
+    def focus(self, text, query, n=650):
+        """Pick the part of a long paragraph that best matches the query (still verbatim RBI text)."""
+        text = re.sub(r"\s+", " ", text).strip()
+        if len(text) <= n:
+            return text
+        q = set(expand(tokens(query)))
+        # candidate cut points at sentence/clause starts
+        starts = [0] + [m.end() for m in re.finditer(r"(?<=[.;:]) (?=[A-Z(\u2018\d])", text)]
+        ends = starts[1:] + [len(text)]
+        qb = set(zip(tokens(query), tokens(query)[1:]))
+        best, best_s = 0, -1.0
+        for st, en in zip(starts, ends):
+            seg = text[st:en]; tk = tokens(seg)
+            sc = sum(self.idf.get(t, 1.0) for t in q & set(tk)) + 3.0 * len(qb & set(zip(tk, tk[1:])))
+            if sc > best_s:
+                best, best_s = st, sc
+        chunk = text[best: best + n]
+        if best + n < len(text):
+            cut = chunk.rfind(". ")
+            chunk = (chunk[: cut + 1] if cut > n * 0.5 else chunk.rsplit(" ", 1)[0]) + " …"
+        return ("… " if best else "") + chunk
+
+    def history(self, query, entity=None):
+        """Best-matching historical (2016, repealed) chunk, for clearly labelled 'earlier position' context."""
+        q_raw = tokens(query); q = list(dict.fromkeys(expand(q_raw)))
+        best = None
+        for i, c in enumerate(self.chunks):
+            if c["status"] != "historical" or c["para_no"] == "intro" or c["text"].count(" | ") > 3:
+                continue
+            terms = set(self.docs[i].keys())
+            if sum(1 for t in set(q_raw) if t in terms) / max(1, len(set(q_raw))) < MIN_COVERAGE:
+                continue
+            s = self.score(i, q) + self.phrase_bonus(i, q_raw)
+            if best is None or s > best[0]:
+                best = (s, i)
+        if not best or best[0] < MIN_SCORE * 2:
+            return None
+        c = self.chunks[best[1]]
+        return {"para_no": c["para_no"], "section": c.get("section"), "doc_title": c["doc_title"], "status": "historical",
+                "change_dates": c.get("change_dates", []), "last_amended": c.get("last_amended"),
+                "source_url": c["source_url"], "text": c["text"]}
 
     @staticmethod
     def cite(c, score):

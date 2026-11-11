@@ -1,0 +1,596 @@
+{
+ "corpus_versions": [
+  "December 29, 2025",
+  "October 1, 2026"
+ ],
+ "topics": [
+  {
+   "key": "basics",
+   "title": "KYC basics",
+   "items": [
+    {
+     "q": "What is KYC and why do regulated entities have to do it?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "When is KYC mandatory for a customer?",
+     "ref": "para 24",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Who is a walk-in customer?",
+     "ref": "para 67",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Do I need to submit KYC documents again for a second account with the same lender?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is customer due diligence?",
+     "ref": "para 39",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is a customer acceptance policy?",
+     "ref": "para 16",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is the KYC policy that an NBFC must have?",
+     "ref": "para 6",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Who is the designated director and principal officer for KYC?",
+     "ref": "para 14",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is the money laundering risk assessment a lender must do?",
+     "ref": "para 10",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "documents",
+   "title": "Documents & identity",
+   "items": [
+    {
+     "q": "What documents are officially valid documents for KYC?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are deemed OVDs for proof of address?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "How old can a utility bill be as address proof?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is PAN mandatory for KYC or can Form 60 be used?",
+     "ref": "para 43",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is Aadhaar mandatory for KYC?",
+     "ref": "para 23",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is a small account and what are its limits?",
+     "ref": "para 51",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What if the customer's name changed after marriage?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is KYC needed for every holder of a joint account?",
+     "ref": "para 17",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can a customer give a different current address than the one on the OVD?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "onboarding",
+   "title": "Onboarding (V-CIP, e-KYC, digital)",
+   "items": [
+    {
+     "q": "What are the ways to onboard an individual customer?",
+     "ref": "para 26",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is V-CIP and what are its technical requirements?",
+     "ref": "para 27",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Who can conduct a V-CIP session and what checks are needed?",
+     "ref": "para 27",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can Aadhaar OTP based e-KYC be used for loans?",
+     "ref": "para 25",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is digital KYC and how is it carried out?",
+     "ref": "para 24",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is a customer's consent needed for Aadhaar authentication?",
+     "ref": "para 23",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the limits on accounts opened with OTP based e-KYC?",
+     "ref": "para 25",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is non face-to-face onboarding and what extra safeguards apply?",
+     "ref": "para 44",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can KYC be done through a business correspondent or agent?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can KYC verification by a third party be relied upon?",
+     "ref": "para 22",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "ckyc",
+   "title": "CKYC registry",
+   "items": [
+    {
+     "q": "What is a KYC identifier?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Do we have to upload KYC records to CKYCR?",
+     "ref": "para 63",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "When can a regulated entity download KYC records from CKYCR?",
+     "ref": "para 63",
+     "amended": true,
+     "last_amended": "2025-12-29"
+    },
+    {
+     "q": "Within what time must KYC data be uploaded to the Central KYC Records Registry?",
+     "ref": "para 63",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is customer consent needed to use the KYC identifier?",
+     "ref": "para 63",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "updation",
+   "title": "Periodic updation",
+   "items": [
+    {
+     "q": "How often must KYC be updated for high, medium and low risk customers?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is periodic updation of KYC?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can KYC be updated online or by video without visiting a branch?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What happens if a customer does not update KYC?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is a self declaration enough when there is no change in KYC information?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What if address changes — how is it updated?",
+     "ref": "para 63",
+     "amended": true,
+     "last_amended": "2025-12-29"
+    },
+    {
+     "q": "What are the KYC updation rules for a minor who becomes a major?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can accounts be frozen or restricted for non-updation of KYC?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "risk",
+   "title": "Risk & due diligence",
+   "items": [
+    {
+     "q": "How should customers be categorised by risk?",
+     "ref": "para 20",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is ongoing due diligence and transaction monitoring?",
+     "ref": "para 40",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is enhanced due diligence and when is it required?",
+     "ref": "para 44",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is simplified due diligence?",
+     "ref": "para 39",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the rules for politically exposed persons?",
+     "ref": "para 45",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "How should accounts of high risk customers be monitored?",
+     "ref": "para 41",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the requirements for correspondent banking relationships?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is required for wire transfers?",
+     "ref": "para 69",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is the rule on cash transactions and reporting thresholds?",
+     "ref": "para 50",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "How do sanctions lists and UNSCR screening apply to customers?",
+     "ref": "para 56",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "entities",
+   "title": "Companies, firms & trusts",
+   "items": [
+    {
+     "q": "Who is the beneficial owner of a company?",
+     "ref": "para 38",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is the beneficial ownership threshold for a partnership firm?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "How is the beneficial owner of a trust identified?",
+     "ref": "para 38",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What documents are needed for a company customer?",
+     "ref": "para intro",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What documents are needed for a sole proprietorship?",
+     "ref": "para 30",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What KYC applies to a partnership firm?",
+     "ref": "para 34",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What documents are needed for a trust or association?",
+     "ref": "para 36",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Can a listed company skip beneficial owner identification?",
+     "ref": "para 38",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What KYC is required for a self help group or joint liability group?",
+     "ref": "para 8",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What KYC is required for non-resident or foreign customers?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What KYC applies to customers who are legal entities with a foreign element?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "records",
+   "title": "Record keeping",
+   "items": [
+    {
+     "q": "How long must KYC records be retained?",
+     "ref": "para 63",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "How long are transaction records to be preserved?",
+     "ref": "para 47",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What information must be kept for each transaction?",
+     "ref": "para 47",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What records must be kept after a business relationship ends?",
+     "ref": "para 47",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "reporting",
+   "title": "Reporting (STR/CTR/FIU)",
+   "items": [
+    {
+     "q": "What is a suspicious transaction report and when must it be filed?",
+     "ref": "para 53",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What reports must be filed with FIU-IND and by when?",
+     "ref": "para 51",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is a cash transaction report?",
+     "ref": "para 50",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is tipping off the customer allowed after filing an STR?",
+     "ref": "para 19",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the penalties or consequences for non-compliance with KYC?",
+     "ref": "para 74",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "nbfc",
+   "title": "NBFC lending",
+   "items": [
+    {
+     "q": "What KYC rules apply when an NBFC lends through a digital platform or co-lending partner?",
+     "ref": "para 24",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Is KYC required for loan disbursal to a third party or for a loan against property?",
+     "ref": "para 71",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the KYC obligations of an NBFC on its branches and group companies?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What are the requirements for hiring and training employees for KYC?",
+     "ref": "para 72",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Does the NBFC board need to approve the KYC policy?",
+     "ref": "para 6",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What must an NBFC do for internal audit of KYC compliance?",
+     "ref": "para 12",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What is the requirement to apply group-wide KYC policies?",
+     "ref": "para 8",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  },
+  {
+   "key": "change",
+   "title": "What changed",
+   "items": [
+    {
+     "q": "What changed in the KYC Directions in 2025?",
+     "ref": "para 4",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What was inserted in the NBFC KYC Directions on 29 December 2025?",
+     "ref": "para intro",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What changed in the commercial banks KYC Directions in 2026?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "Which Master Direction on KYC was repealed in November 2025?",
+     "ref": "para 73",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What was the earlier rule on beneficial owner threshold for partnership firms and what is it now?",
+     "ref": "para 5",
+     "amended": false,
+     "last_amended": null
+    },
+    {
+     "q": "What did the June 2025 revised instructions change for KYC updation?",
+     "ref": "para 42",
+     "amended": false,
+     "last_amended": null
+    }
+   ]
+  }
+ ],
+ "whats_new": [
+  {
+   "q": "What changed in paragraph 11 (Board of Directors / Policies related guidelines) of the Commercial Banks KYC Directions on 1 October 2026?",
+   "entity": "commercial_banks",
+   "date": "2026-10-01",
+   "kind": "Substituted",
+   "para_no": "11",
+   "verified": true
+  },
+  {
+   "q": "What changed in paragraph 63 (CDD Procedure and sharing KYC information with Central KYC Records Registry (CKYCR)) of the NBFC KYC Directions on 29 December 2025?",
+   "entity": "nbfc",
+   "date": "2025-12-29",
+   "kind": "Inserted",
+   "para_no": "63",
+   "verified": true
+  }
+ ]
+}

@@ -94,6 +94,8 @@ def handle_ask(method, headers, body, now=None):
     res["disclaimer"] = DISCLAIMER
     res["answer"] = summarise(res)
     if res["status"] == "answered":
+        res["detail"] = build_detail(res, q, ENTITIES.get(ent))
+    if res["status"] == "answered":
         gen = llm.summarise(q, res["results"])
         if gen:
             res["summary"] = gen; res["summary_is_ai_generated"] = True
@@ -111,6 +113,58 @@ def summarise(res):
     return f"RBI says ({top['doc_title']}, paragraph {top['para_no']}): {text}"
 
 
+def _trim(text, n):
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= n:
+        return text
+    cut = text[:n]
+    return cut[: max(cut.rfind(". "), int(n * 0.6)) + 1] + " …"
+
+
+def build_detail(res, query, entity_name):
+    """Structured, fully extractive detail: key passages with references + what changed. No generated text."""
+    seen, points = set(), []
+    for r in res["results"]:
+        if r["status"] == "historical":
+            continue
+        key = (r["doc_key"], r["para_no"])
+        if key in seen:
+            continue
+        seen.add(key)
+        points.append({"reference": f"{r['doc_title']}, paragraph {r['para_no']}" + (f" ({r['section']})" if r.get("section") else ""),
+                       "entity": r["entity"], "text": index().focus(r["text"], query, 650), "last_amended": r.get("last_amended"),
+                       "version": r.get("version"), "source_url": r["source_url"], "id": r["id"]})
+        if len(points) == 3:
+            break
+    cited = {(r["doc_key"], r["para_no"]) for r in res["results"][:5] if r["status"] != "historical"}
+    changed, seen_a = [], set()
+    for r in res["results"][:5]:
+        for a in r.get("amendments", []):
+            k = (r["doc_key"], r["para_no"], a["date"], a["kind"])
+            if k not in seen_a:
+                seen_a.add(k)
+                changed.append({"paragraph": r["para_no"], "kind": a["kind"], "date": a["date"], "instrument": a["instrument"], "url": a["url"]})
+        am_date = r.get("last_amended") or (re.search(r"\d{4}-\d{2}-\d{2}", r["doc_key"]) or [None])[0]
+        if r["status"] == "amendment" and am_date:
+            k = (r["doc_key"], r["para_no"], am_date, "circular")
+            if k not in seen_a:
+                seen_a.add(k)
+                changed.append({"paragraph": r["para_no"], "kind": "Amendment circular", "date": am_date,
+                                "instrument": r["doc_title"], "url": r["source_url"]})
+    changed.sort(key=lambda x: x["date"] or "", reverse=True)
+    versions = sorted({r["version"] for r in res["results"][:5] if r.get("version") and r["status"] != "historical"})
+    hist = index().history(query, entity_name)
+    earlier = None
+    if hist:
+        earlier = {"note": "Earlier position (2016 Master Direction, repealed on 28 Nov 2025 – historical context only; the 2025 Directions control).",
+                   "reference": f"{hist['doc_title']}, paragraph {hist['para_no']}",
+                   "amended_on": hist["change_dates"], "text": index().focus(hist["text"], query, 450), "source_url": hist["source_url"]}
+    return {"key_points": points, "what_changed": changed,
+            "what_changed_note": ("Amendments recorded by RBI on the cited paragraphs." if changed else
+                                  "No amendment is recorded by RBI on the cited paragraphs in the version checked" + (f" ({'; '.join(versions)})." if versions else ".")),
+            "earlier_position": earlier}
+
+
 def handle_changes(method, headers, query_string):
     if method != "GET":
         return _resp(405, {"error": "Use GET."}, {"Allow": "GET"})
@@ -126,3 +180,20 @@ def handle_changes(method, headers, query_string):
     if since is not None and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", since):
         return _resp(400, {"error": "since must be YYYY-MM-DD."})
     return _resp(200, {"changes": changes_mod.timeline(ENTITIES.get(ent), since, hist), "disclaimer": DISCLAIMER})
+
+
+_FAQS = None
+
+
+def handle_faqs(method, headers):
+    """Read-only list of verified quick questions (built by scripts/build_faqs.py)."""
+    global _FAQS
+    if method != "GET":
+        return _resp(405, {"error": "Use GET."}, {"Allow": "GET"})
+    headers = {k.lower(): v for k, v in headers.items()}
+    if rate_limited(client_id(headers)):
+        return _resp(429, {"error": "Too many requests. Please try again later."}, {"Retry-After": "60"})
+    if _FAQS is None:
+        from pathlib import Path
+        _FAQS = json.loads((Path(__file__).resolve().parent.parent / "data" / "faqs.json").read_text(encoding="utf-8"))
+    return _resp(200, _FAQS)
