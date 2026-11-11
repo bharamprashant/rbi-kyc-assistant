@@ -31,3 +31,9 @@ Secrets exist only as environment variables (`.env.example` lists names, no valu
 
 ## Reporting
 Open a private security advisory on the GitHub repository.
+
+## Feedback ("not correct") channel
+- Opt-in: sent only when the user presses a feedback button; the UI says what is sent (question + optional note).
+- Stored: question text, verdict, optional note, entity filter, paragraph numbers shown. Never IPs or headers.
+- Destination: issues in a separate PRIVATE GitHub repo, using a fine-grained token limited to Issues on that repo only, held in the `FEEDBACK_GITHUB_TOKEN` Vercel environment variable (never in the code or the browser).
+- Controls: same-origin check, 4 KB body cap, strict field validation, 6 per hour per client and 150 per day overall, text neutralised (no @mentions, #links, HTML, URLs) before it reaches GitHub.

@@ -60,6 +60,34 @@
       out.appendChild(e);
     }
   }
+  function sendFeedback(ctx, verdict, comment, done) {
+    fetch("/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: ctx.question, entity: ctx.entity || null, verdict: verdict, comment: comment || "", shown: ctx.shown, status: ctx.status }) })
+      .then(function (r) { return r.json().then(function (j) { done(r.status === 200, j); }); })
+      .catch(function () { done(false, { error: "Network error. Please try again." }); });
+  }
+  function feedbackBox(ctx) {
+    var box = el("div", "card feedback");
+    box.appendChild(el("strong", null, "Was this answer right?"));
+    var row = el("div", "chips");
+    var up = el("button", "chip", "\uD83D\uDC4D Helpful"); up.type = "button";
+    var down = el("button", "chip", "\uD83D\uDC4E Not correct / not what I expected"); down.type = "button";
+    row.appendChild(up); row.appendChild(down); box.appendChild(row);
+    var msg = el("p", "meta"); box.appendChild(msg);
+    function finish(ok, j) { msg.textContent = ok ? "Thank you. Your feedback helps us improve the answers." : (j && j.error) || "Could not send feedback."; if (ok) { row.hidden = true; var f = box.querySelector("form"); if (f) f.hidden = true; } }
+    up.onclick = function () { up.disabled = true; sendFeedback(ctx, "helpful", "", finish); };
+    down.onclick = function () {
+      if (box.querySelector("form")) return;
+      var f = el("form"); var ta = el("textarea"); ta.maxLength = 500; ta.rows = 3; ta.setAttribute("aria-label", "What did you expect?");
+      ta.placeholder = "What did you expect, or what is wrong? (optional, please don't include personal data)";
+      f.appendChild(ta);
+      f.appendChild(el("p", "meta", "This sends your question and this note to the site owner so the assistant can be improved. Nothing else about you is collected."));
+      var b = el("button", "chip", "Send feedback"); b.type = "submit"; f.appendChild(b);
+      f.onsubmit = function (ev) { ev.preventDefault(); b.disabled = true; sendFeedback(ctx, "incorrect", ta.value, function (ok, j) { if (!ok) b.disabled = false; finish(ok, j); }); };
+      box.appendChild(f); ta.focus();
+    };
+    return box;
+  }
   function ask(question, ent, hist) {
     var out = $("out"); out.textContent = "Searching…";
     fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" },
@@ -75,7 +103,8 @@
             n.appendChild(el("p", "meta", "Did you mean one of these?"));
             var sc = el("div", "chips"); j.suggestions.forEach(function (q) { sc.appendChild(chip(q, null, "", "")); }); n.appendChild(sc);
           }
-          n.appendChild(el("p", "meta", j.disclaimer)); out.appendChild(n); return;
+          n.appendChild(el("p", "meta", j.disclaimer)); out.appendChild(n);
+          out.appendChild(feedbackBox({ question: question, entity: ent, status: j.status, shown: [] })); return;
         }
         var a = el("div", "card answer");
         if (j.summary) a.appendChild(el("p", "meta", "AI summary (check against the RBI text below): " + j.summary));
@@ -88,6 +117,7 @@
         var det = el("details"); det.appendChild(el("summary", null, "All matching RBI passages (" + j.results.length + ")"));
         j.results.forEach(function (r) { det.appendChild(rbiCard(r)); }); out.appendChild(det);
         out.appendChild(el("p", "meta", j.disclaimer));
+        out.appendChild(feedbackBox({ question: question, entity: ent, status: j.status, shown: j.results.slice(0, 5).map(function (r) { return String(r.para_no); }) }));
         out.scrollIntoView({ behavior: "smooth", block: "start" });
       }).catch(function () { out.textContent = "Network error. Please try again."; });
   }
