@@ -1,5 +1,7 @@
 from http.server import BaseHTTPRequestHandler
-from _common import handle_ask, MAX_BODY
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # project root, so `core` imports on Vercel
+from core.service import handle_ask, MAX_BODY
 
 
 class handler(BaseHTTPRequestHandler):

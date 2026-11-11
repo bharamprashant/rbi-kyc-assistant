@@ -1,6 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlsplit
-from _common import handle_changes
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # project root, so `core` imports on Vercel
+from core.service import handle_changes
 
 
 class handler(BaseHTTPRequestHandler):

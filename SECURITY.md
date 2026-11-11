@@ -6,7 +6,7 @@
 | `raw_html/` | Untouched snapshots of official RBI pages (evidence). Never edited by hand | offline only |
 | `data/` | Generated corpus (`chunks.jsonl`, `changes.jsonl`, `versions.json`, `CHANGELOG.md`). Regenerate with `scripts/parse_directions.py` | read-only at runtime |
 | `core/` | Retrieval, refusal, change timeline. Pure functions, no network, no secrets (`llm.py` is optional and off by default) | imported by `api/` |
-| `api/` | Thin HTTP layer: validation, rate limits. Only `_common.py` holds logic | public internet |
+| `api/` | Thin HTTP handlers only; request validation and rate limits live in `core/service.py` | public internet |
 | `public/` | Static UI. No inline scripts, no `innerHTML`, no third-party scripts | public internet |
 | `scripts/` | Offline tools: parse, refresh, changelog. Not deployed behavior | CI / maintainer only |
 | `.github/workflows/` | CI (read-only token) and weekly refresh (opens a PR, never deploys) | GitHub only |
