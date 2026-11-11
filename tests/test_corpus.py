@@ -41,6 +41,11 @@ class Corpus(unittest.TestCase):
         self.assertIn("2026-10-01", a)
         self.assertEqual(VER["md-commercial-banks-2025"]["version_iso"], "2026-10-01")
 
+    def test_every_chapter_detected(self):
+        for d in ("md-nbfc-2025", "md-commercial-banks-2025"):
+            chapters = {c["chapter"].split(" ")[0] + " " + re.split(r"[\s-]+", c["chapter"])[1] for c in CH if c["doc_key"] == d and c["chapter"]}
+            self.assertEqual(len(chapters), 11, (d, sorted(chapters)))
+
     def test_status_and_scope(self):
         self.assertEqual({c["entity"] for c in CH if c["status"] == "current"}, {"NBFC", "Commercial Banks"})
         self.assertTrue(all(c["status"] == "historical" for c in CH if c["doc_key"] == "md-kyc-2016"))

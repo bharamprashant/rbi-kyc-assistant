@@ -30,6 +30,11 @@ OUT_OF_SCOPE = [  # entity types the project deliberately does not cover
     (r"asset\s+reconstruction|\barc\b", "Asset Reconstruction Companies"),
     (r"all\s+india\s+financial\s+institution|\baifi\b", "All India Financial Institutions"),
 ]
+ANCHOR_WORDS = """kyc know customer client cdd edd sdd diligence identification identity identify verification verify onboarding
+aadhaar pan ovd document address beneficial owner ckycr vcip video account risk monitoring record reporting suspicious
+transaction fiu pmla aml cft laundering terrorist terrorism nbfc bank regulated updation periodic digital offline
+sanction unscr pep politically exposed shell correspondent trust partnership proprietary entity branch employee
+screening wire transfer cash threshold designated director principal officer compliance policy""".split()
 STATUS_WEIGHT = {"current": 1.0, "amendment": 0.95, "historical": 0.55}
 MIN_SCORE = 4.0       # below this top score => refuse
 MIN_COVERAGE = 0.5    # share of query terms that must appear in the best chunk
@@ -40,6 +45,9 @@ def stem(w):
         if len(w) > len(suf) + 3 and w.endswith(suf):
             return w[: -len(suf)] + ("y" if suf in ("ies", "ied") else "")
     return w
+
+
+ANCHORS = {stem(w) for w in ANCHOR_WORDS}
 
 
 def tokens(text, keep_stop=False):
@@ -62,10 +70,13 @@ def expand(q_tokens):
 class Index:
     def __init__(self, chunks):
         self.chunks = chunks
-        self.docs = []
+        self.docs, self.bigrams, self.sec_bigrams = [], [], []
         for c in chunks:
             body = tokens(c["text"]) + 2 * tokens(c.get("section", "")) + tokens(c.get("chapter", ""))
             self.docs.append(Counter(body))
+            self.bigrams.append(set(zip(tokens(c["text"]), tokens(c["text"])[1:])))
+            sec = tokens(c.get("section", ""))
+            self.sec_bigrams.append(set(zip(sec, sec[1:])))
         self.len = [sum(d.values()) for d in self.docs]
         self.avg = sum(self.len) / max(1, len(self.len))
         df = Counter()
@@ -88,6 +99,11 @@ class Index:
                 s += self.idf.get(t, 0) * f * (k1 + 1) / (f + k1 * (1 - b + b * dl / self.avg))
         return s
 
+    def phrase_bonus(self, i, q_raw):
+        """Reward chunks where adjacent query words also appear adjacent (e.g. 'enhanced due diligence')."""
+        pairs = set(zip(q_raw, q_raw[1:]))
+        return 2.0 * len(pairs & self.bigrams[i]) + 4.0 * len(pairs & self.sec_bigrams[i])
+
     def search(self, query, entity=None, include_historical=False, k=5):
         """Return dict: status answered|refused|out_of_scope, results [...]."""
         ql = query.lower()
@@ -98,20 +114,22 @@ class Index:
         if not q_raw:
             return {"status": "refused", "reason": "Please ask a question about RBI KYC requirements.", "results": []}
         q = list(dict.fromkeys(expand(q_raw)))
+        if not ANCHORS & set(q):
+            return {"status": "refused", "reason": "This assistant only answers questions about RBI's KYC Directions for NBFCs and Commercial Banks.", "results": []}
         scored = []
         for i, c in enumerate(self.chunks):
             if c["status"] == "historical" and not include_historical:
                 continue
             if entity and c["entity"] not in (entity, "All REs (pre-consolidation)"):
                 continue
-            s = self.score(i, q) * STATUS_WEIGHT[c["status"]]
+            s = (self.score(i, q) + self.phrase_bonus(i, q_raw)) * STATUS_WEIGHT[c["status"]]
             if s > 0:
                 scored.append((s, c.get("last_amended") or "", i))
         scored.sort(key=lambda x: (-round(x[0], 6), x[1]), reverse=False)
         if not scored:
             return {"status": "refused", "reason": "No relevant RBI text found for this question.", "results": []}
         top = scored[0]
-        top_terms = set(self.docs[top[2]])
+        top_terms = set().union(*(self.docs[x[2]].keys() for x in scored[:3]))
         coverage = sum(1 for t in set(q_raw) if t in top_terms) / len(set(q_raw))
         if top[0] < MIN_SCORE or coverage < MIN_COVERAGE:
             return {"status": "refused", "reason": "I could not find text in the RBI KYC Directions that answers this. Try rephrasing, or check the Directions directly.", "results": []}

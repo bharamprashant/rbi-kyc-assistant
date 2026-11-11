@@ -102,7 +102,7 @@ def blocks(src):
 
 
 NUM_RE = re.compile(r"^\[?\s*(\d{1,3})\.\s")
-CHAPTER_RE = re.compile(r"^(chapter\s+[ivxl]+)\b\s*[–-]?\s*(.*)$", re.I)
+CHAPTER_RE = re.compile(r"^(chapter[\s-]*[ivxl]+)\b\s*[–-]?\s*(.*)$", re.I)
 MAX_CHARS = 2400
 
 

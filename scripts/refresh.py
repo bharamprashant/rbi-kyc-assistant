@@ -49,6 +49,7 @@ def main():
         stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         dest.write_text(f"<!-- source: {p['url'].rsplit('/', 1)[-1]} saved {stamp} -->\n{new}", encoding="utf-8")
         changed.append(p["file"])
+    print(f"checked {len(pages)} pages: {len(changed)} changed, {len(failed)} failed, {len(pages) - len(changed) - len(failed)} unchanged")
     for f, why in failed:
         print(f"FAILED {f}: {why}", file=sys.stderr)
     if changed:

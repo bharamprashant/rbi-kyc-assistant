@@ -14,6 +14,14 @@ class Search(unittest.TestCase):
         top = {(x["entity"], x["para_no"]) for x in r["results"][:3]}
         self.assertTrue({("NBFC", "63"), ("Commercial Banks", "65")} & top)
 
+    def test_phrase_match_finds_edd_section_first(self):
+        r = IX.search("enhanced due diligence for high risk customers", entity="Commercial Banks")
+        self.assertIn("Enhanced Due Diligence", r["results"][0]["section"])
+
+    def test_vcip_question_answered(self):
+        r = IX.search("V-CIP requirements for video based onboarding", entity="NBFC")
+        self.assertEqual(r["status"], "answered")
+
     def test_periodic_updation(self):
         r = IX.search("periodic updation of KYC for high risk customers", entity="NBFC")
         self.assertEqual(r["status"], "answered")
@@ -51,3 +59,23 @@ class Search(unittest.TestCase):
         self.assertEqual(t[0]["date"], "2026-10-01")
         cur = timeline(include_historical=False)
         self.assertTrue(all(e["status"] != "historical" for e in cur))
+
+
+class Battery(unittest.TestCase):
+    ON_TOPIC = ["What does RBI say about customer acceptance policy?", "when must a bank file a suspicious transaction report",
+                "can an NBFC accept an Aadhaar number for onboarding", "small accounts limits", "simplified due diligence",
+                "what documents are officially valid documents", "beneficial owner threshold for a company",
+                "periodic updation of KYC for high risk customers", "how long must KYC records be preserved",
+                "what is the role of the designated director", "digital KYC process steps", "KYC for politically exposed persons",
+                "who is a principal officer", "KYC requirements for trusts", "how to handle UNSCR sanctions list matches"]
+    OFF_TOPIC = ["how do I file my income tax return", "GST rate on software services", "best pizza recipe in Mumbai",
+                 "what will the rupee be worth next year", "weather in Bengaluru today", "write me a poem about the sea",
+                 "who won the cricket match", "how do I reset my phone"]
+
+    def test_on_topic_answered(self):
+        for q in self.ON_TOPIC:
+            self.assertEqual(IX.search(q)["status"], "answered", q)
+
+    def test_off_topic_refused(self):
+        for q in self.OFF_TOPIC:
+            self.assertEqual(IX.search(q)["status"], "refused", q)
