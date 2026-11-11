@@ -101,6 +101,44 @@ class Detail(unittest.TestCase):
                 self.assertIn(part[:120], full)
 
 
+class Understanding(unittest.TestCase):
+    def setUp(self):
+        c.reset_limits()
+
+    def test_retrieval_quality_does_not_regress(self):
+        """scripts/eval_retrieval.py over differently worded questions (formal, casual, keywords, descriptive, typos)."""
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import eval_retrieval
+        r = eval_retrieval.evaluate(IX)
+        self.assertGreaterEqual(r["hit"], 0.93, r["by_style"])
+        self.assertGreaterEqual(r["by_style"]["formal"], 0.99)
+        for style in ("casual", "keywords", "typo/short"):
+            self.assertGreaterEqual(r["by_style"][style], 0.88, style)
+
+    def test_broad_question_gets_clarifying_options(self):
+        s, j = ask("what documents are required for kyc")
+        self.assertEqual(j["status"], "answered"); self.assertTrue(j["clarify"]["options"])
+        s, j = ask("what documents are needed for a company customer")
+        self.assertIsNone(j["clarify"])
+
+    def test_typos_and_lay_words(self):
+        for q in ("re-kyc frequecy for high risk custmer", "wire transfr rules", "ubo threshold", "kyc by dsa or agent"):
+            self.assertEqual(ask(q)[1]["status"], "answered", q)
+
+    def test_words_not_in_the_directions_are_refused_not_guessed(self):
+        self.assertEqual(ask("inoperative account reactivation kyc")[1]["status"], "refused")
+        self.assertEqual(ask("What is the best biryani recipe?")[1]["status"], "refused")
+
+    def test_intent_labels(self):
+        self.assertEqual(c.classify_intent("how many years to keep records"), "figure")
+        self.assertEqual(c.classify_intent("what changed in 2025"), "change")
+        self.assertEqual(c.classify_intent("what is a walk-in customer"), "definition")
+
+    def test_suggestions_for_unanswerable_but_related(self):
+        j = ask("kyc rules for crypto wallets")[1]
+        self.assertIn(j["status"], ("refused",)); self.assertIn("suggestions", j)
+
+
 class Faqs(unittest.TestCase):
     def setUp(self):
         c.reset_limits()

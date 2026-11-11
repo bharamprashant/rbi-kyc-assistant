@@ -31,3 +31,10 @@ Deploy: import the repo in Vercel (no build step). See `SECURITY.md` for setting
 - `data/question_bank.json`: 84 curated questions, written in our own words from topics in public KYC FAQs (RBI's FAQs of 9 Jun 2025 and lender/bank FAQ pages). Tests require every one to be answered for both NBFCs and Commercial Banks.
 - Answers are extractive, never generated: key RBI passages with paragraph references, a **What changed** block (RBI footnotes and amendment circulars on the cited paragraphs), and an **Earlier position** block from the repealed 2016 Direction, clearly labelled historical.
 - `scripts/build_faqs.py` writes `data/faqs.json` (verified questions plus auto-generated "What changed" questions from the change registry). `scripts/refresh.py` re-runs it whenever RBI text changes, so the suggestions follow the data. User queries are never logged or used.
+
+## How questions are understood (retrieval v2)
+Researched practice for regulatory RAG (hybrid search, query rewriting/expansion for vocabulary mismatch, intent detection, clarification, abstaining when evidence is missing, evaluation with recall@k) and applied the parts that fit a free, no-training, no-secrets setup:
+- `data/vocabulary.json`: everyday words and phrases mapped to RBI's wording (selfie -> live photograph, co-borrower -> joint account, NGO -> trust/association ...). Edit this file, not code.
+- Typo correction against the RBI text, single BM25 ranker with phrase and section-title bonuses, refusal when key words are not in the Directions.
+- Intent label, clarifying options for broad questions (e.g. documents without customer type), and "did you mean" suggestions when nothing answers.
+- `scripts/eval_retrieval.py` + `data/eval_paraphrases.json`: 325 differently worded questions; CI fails if quality drops. Result: hit@5 0.80 -> 0.95 (casual wording 0.74 -> 0.92). Reciprocal-rank fusion with extra rankers was tested and scored lower, so it is not used.

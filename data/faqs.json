@@ -178,7 +178,7 @@
     },
     {
      "q": "Can KYC be done through a business correspondent or agent?",
-     "ref": "para 42",
+     "ref": "para 22",
      "amended": false,
      "last_amended": null
     },
@@ -256,7 +256,7 @@
     },
     {
      "q": "Can KYC be updated online or by video without visiting a branch?",
-     "ref": "para 5",
+     "ref": "para 44",
      "amended": false,
      "last_amended": null
     },
@@ -466,7 +466,7 @@
    "items": [
     {
      "q": "What is a suspicious transaction report and when must it be filed?",
-     "ref": "para 53",
+     "ref": "para 50",
      "amended": false,
      "last_amended": null
     },

@@ -70,11 +70,20 @@
         if (x.s !== 200) { out.appendChild(el("p", null, x.j.error || "Something went wrong.")); return; }
         var j = x.j;
         if (j.status !== "answered") {
-          var n = el("div", "card"); n.appendChild(el("p", null, j.reason)); n.appendChild(el("p", "meta", j.disclaimer)); out.appendChild(n); return;
+          var n = el("div", "card"); n.appendChild(el("p", null, j.reason));
+          if (j.suggestions && j.suggestions.length) {
+            n.appendChild(el("p", "meta", "Did you mean one of these?"));
+            var sc = el("div", "chips"); j.suggestions.forEach(function (q) { sc.appendChild(chip(q, null, "", "")); }); n.appendChild(sc);
+          }
+          n.appendChild(el("p", "meta", j.disclaimer)); out.appendChild(n); return;
         }
         var a = el("div", "card answer");
         if (j.summary) a.appendChild(el("p", "meta", "AI summary (check against the RBI text below): " + j.summary));
         a.appendChild(el("p", null, j.answer)); out.appendChild(a);
+        if (j.clarify) {
+          var cb = el("div", "card"); cb.appendChild(el("p", null, j.clarify.prompt));
+          var cc = el("div", "chips"); j.clarify.options.forEach(function (o) { cc.appendChild(chip(o.question, null, "", "")); }); cb.appendChild(cc); out.appendChild(cb);
+        }
         if (j.detail) renderDetail(out, j.detail);
         var det = el("details"); det.appendChild(el("summary", null, "All matching RBI passages (" + j.results.length + ")"));
         j.results.forEach(function (r) { det.appendChild(rbiCard(r)); }); out.appendChild(det);
