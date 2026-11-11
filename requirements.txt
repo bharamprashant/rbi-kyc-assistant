@@ -1,0 +1,1 @@
+# no third-party dependencies: the app runs on the Python standard library only

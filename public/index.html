@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RBI KYC Assistant for NBFCs and Commercial Banks</title>
+<meta name="description" content="Cited answers from RBI's KYC Directions for NBFCs and commercial banks. Not legal advice.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><h1>RBI KYC Assistant</h1>
+<p>Cited answers from RBI's KYC Directions (2025) for <strong>NBFCs</strong> and <strong>Commercial Banks</strong>. An independent project, not affiliated with RBI. Not legal advice.</p></header>
+<main>
+<nav role="tablist"><button id="tab-ask" role="tab" aria-selected="true">Ask</button><button id="tab-changes" role="tab" aria-selected="false">What changed</button></nav>
+<section id="ask">
+<form id="f"><label for="q">Your question</label>
+<textarea id="q" maxlength="400" rows="3" required placeholder="e.g. Who is responsible for verifying identity when relying on CKYCR records?"></textarea>
+<label for="entity">Entity type</label>
+<select id="entity"><option value="">Both</option><option value="nbfc">NBFC</option><option value="commercial_banks">Commercial Banks</option></select>
+<label class="inline"><input type="checkbox" id="hist"> Include the repealed 2016 Master Direction (history only)</label>
+<button type="submit">Search RBI text</button></form>
+<div id="out" aria-live="polite"></div>
+</section>
+<section id="changes" hidden><div id="chg" aria-live="polite"></div></section>
+</main>
+<footer><p>Answers are RBI's own words with the source, paragraph and date. If nothing relevant is found, the assistant says so instead of guessing. The newest RBI circular always controls; check the linked source.</p></footer>
+<script src="/app.js"></script>
+</body>
+</html>

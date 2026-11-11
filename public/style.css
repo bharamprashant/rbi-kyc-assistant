@@ -1,0 +1,7 @@
+body{font:16px/1.5 system-ui,sans-serif;max-width:52rem;margin:0 auto;padding:1rem;color:#1a1a1a}
+header p,footer p{color:#555}textarea,select{width:100%;padding:.5rem;margin:.25rem 0 .75rem;font:inherit}
+button{padding:.5rem 1rem;font:inherit;cursor:pointer}nav button[aria-selected=true]{font-weight:700;text-decoration:underline}
+label{display:block;font-weight:600}label.inline{font-weight:400;margin-bottom:.75rem}
+.card{border:1px solid #ccc;border-radius:6px;padding:.75rem;margin:.75rem 0}.meta{color:#555;font-size:.9rem}
+.tag{display:inline-block;background:#eef;padding:0 .4rem;border-radius:3px;font-size:.8rem}.hist{background:#fee}
+pre{white-space:pre-wrap;font:inherit;margin:.5rem 0}a{color:#0645ad}

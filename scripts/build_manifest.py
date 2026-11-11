@@ -100,8 +100,8 @@ FP = "Certified-copy facility (original certified copy by listed overseas author
 R += [
  amend("am-nbfc-2025-12-29","NBFC","2025-12-29","RBI/2025-26/160","DOR.AML.REC.364/14.01.003/2025-26",13236,
        "Reserve Bank of India (Non-Banking Financial Companies – Know Your Customer) Amendment Directions, 2025","rbi_page",CK+" Para 63."),
- amend("am-cb-2025-12-29","Commercial Banks","2025-12-29","RBI/2025-26/166","DOR.AML.REC.370/14.01.002/2025-26",None,
-       "Reserve Bank of India (Commercial Banks – Know Your Customer) Amendment Directions, 2025","secondary",CK+" Para 65. RBI page id not retrieved."),
+ amend("am-cb-2025-12-29","Commercial Banks","2025-12-29","RBI/2025-26/166","DOR.AML.REC.370/14.01.002/2025-26",13242,
+       "Reserve Bank of India (Commercial Banks – Know Your Customer) Amendment Directions, 2025","rbi_page",CK+" Para 65. Page saved to raw_html/ on 2026-11-11."),
  amend("am-sfb-2025-12-29","Small Finance Banks","2025-12-29","","",None,
        "Reserve Bank of India (Small Finance Banks – Know Your Customer) Amendment Directions, 2025","secondary",CK+" Ref number not retrieved."),
  amend("am-ucb-2025-12-29","Urban Co-operative Banks","2025-12-29","RBI/2025-26/165","DOR.AML.REC.369/14.01.006/2025-26",None,
@@ -122,8 +122,10 @@ R += [
  amend("am-pb-2025-12-29","Payments Banks","2025-12-29","","",None,
        "Reserve Bank of India (Payments Banks – Know Your Customer) Amendment Directions, 2025","secondary",CK+" Ref number not retrieved."),
  # 18 Sep 2026: six parallel bank-category amendments
- amend("am-cb-2026-09-18","Commercial Banks","2026-09-18","","",None,
-       "Reserve Bank of India (Commercial Banks – Know Your Customer) Amendment Directions, 2026","secondary",FP+" Substitutes para 5(1)(v). Ref and RBI page not retrieved."),
+ amend("am-cb-2026-09-18","Commercial Banks","2026-09-18","","",13699,
+       "Reserve Bank of India (Commercial Banks – Know Your Customer) Amendment Directions, 2026","rbi_page_footnote",FP+" Footnote on the Commercial Banks Directions page marks para 5 as inserted w.e.f. 18 Sep 2026 (RBI page id 13699). Ref number not yet retrieved."),
+ amend("am-cb-2026-10-01-governance","Commercial Banks","2026-10-01","","",13555,
+       "Reserve Bank of India (Commercial Banks – Governance) Amendment Directions, 2026 (consequential change in KYC Directions)","rbi_page_footnote","Footnote on the Commercial Banks KYC page: para 11 substituted w.e.f. 1 Oct 2026 consequent to this amendment (RBI page id 13555). Explains the page header 'Updated as on October 1, 2026'."),
  amend("am-sfb-2026-09-18","Small Finance Banks","2026-09-18","RBI/2026-27/258","DOR.AML.REC.224/14.01.007/2026-27",13700,
        "Reserve Bank of India (Small Finance Banks – Know Your Customer) Amendment Directions, 2026","rbi_page",FP+" Substitutes para 5(1)(v)."),
  amend("am-lab-2026-09-18","Local Area Banks","2026-09-18","","",None,
@@ -160,8 +162,8 @@ R += [
      lending_priority="core", notes="Source of the 'three intimations / three reminders' for periodic updation per secondary commentary - verify in text."),
  row(doc_key="hist-withdrawal-2025-11-28", entity="All REs", doc_type="historical_amendment",
      title="Consolidation of Regulations – Withdrawal of circulars (28 Nov 2025) and repeal notice for the 2016 KYC Master Direction",
-     issue_date="2025-11-28", evidence="inferred_gap", lending_priority="core",
-     notes="Needed as the authoritative 'repealed on' citation. Exact RBI URL not retrieved. Related payments circular RBI/2025-26/101 CO.DPSS.POLC.No.S-955/02-30-010/2025-26 at rbi.org.in/Scripts/BS_CircularIndexDisplay.aspx?Id=13171 redirects PPI/PA references to the Commercial Banks Directions."),
+     issue_date="2025-11-28", evidence="rbi_page", dor_ref="DOR.RRC.REC.302/33-01-010/2025-26", lending_priority="core",
+     notes="Repeal of the earlier KYC Directions is stated in RBI's own text: NBFC Directions para 73 and Commercial Banks Directions para 80 cite circular DOR.RRC.REC.302/33-01-010/2025-26 dated 28 Nov 2025. The standalone circular page is not yet retrieved. Related payments circular RBI/2025-26/101 CO.DPSS.POLC.No.S-955/02-30-010/2025-26 at rbi.org.in/Scripts/BS_CircularIndexDisplay.aspx?Id=13171 redirects PPI/PA references to the Commercial Banks Directions."),
 ]
 
 # Individual amendment circulars to the 2016 Direction, taken from the footnotes and colour legend of

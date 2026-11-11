@@ -1,0 +1,35 @@
+name: refresh-rbi-text
+# Weekly check of the official RBI pages. Never deploys: it opens a pull request for a human to review and merge.
+on:
+  schedule: [{ cron: "17 5 * * 1" }]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Fetch, parse, test
+        id: r
+        run: |
+          set +e
+          python3 -I scripts/refresh.py; code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          [ "$code" = "2" ] && echo "::warning::RBI fetch failed or was blocked; nothing changed"
+          python3 -I -m unittest discover -s tests
+          exit 0
+      - name: Open pull request for review
+        if: steps.r.outputs.code == '10'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          b="refresh/$(date -u +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$b"; git add raw_html data; git commit -m "Refresh RBI KYC text ($(date -u +%F))"
+          git push origin "$b"
+          gh pr create --base main --head "$b" --title "RBI KYC text changed ($(date -u +%F))" \
+            --body "Automated check found changes on the official RBI pages. Review data/changes.jsonl and the raw_html diff, confirm tests pass, then merge to publish. Merging redeploys the site." || echo "Open the PR manually from branch $b"
