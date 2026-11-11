@@ -7,7 +7,7 @@ Design rules (also enforced by tests):
     circulars > historical (2016 Master Direction, repealed). Historical text is only
     returned when asked for ("what changed" / include_historical) and is always labelled.
 """
-import json, math, re
+import difflib, json, math, re
 from collections import Counter
 from pathlib import Path
 
@@ -17,26 +17,16 @@ STOP = set("""a an the of to in on for and or is are be by with as at from that 
 what which who whom how does do can may must should would not no per under into than then there their
 these those such other also all about i we you your our me my
 regulation regulations requirement requirements guideline guidelines norm norms rule rules tell explain please""".split())
-SYN_RAW = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadhar": ["aadhaar"],
-       "ckyc": ["ckycr"], "kyc": ["kyc"], "ubo": ["beneficial", "owner"], "pep": ["politically", "exposed"],
-       "edd": ["enhanced", "due", "diligence"], "sdd": ["simplified", "due", "diligence"],
-       "cdd": ["customer", "due", "diligence"], "str": ["suspicious", "transaction"], "fiu": ["financial", "intelligence"],
-           "threshold": ["percent", "ownership"], "selfie": ["live", "photograph", "photo", "liveness"], "photo": ["photograph", "live"], "picture": ["photograph", "photo"],
-           "face": ["facial", "liveness", "photograph"], "liveness": ["spoof", "face", "live"], "facematch": ["face", "matching", "photograph"], "proprietorship": ["proprietary", "sole", "proprietor"], "sole": ["proprietary"],
-           "retention": ["preservation", "maintenance", "years"], "retain": ["preservation", "maintenance"],
-           "retained": ["preservation", "maintenance"], "preserved": ["maintenance", "years"], "keep": ["maintenance", "preservation"],
-           "kept": ["maintenance", "preservation"], "store": ["maintenance", "preservation"], "stored": ["maintenance", "preservation"]}
-PHRASE_SYN = [  # everyday phrasing -> RBI's own wording (regex on the lower-cased query, extra search words)
-    (r"small\s+account", "simplified procedure unable produce documents self attested photograph"),
-    (r"^(?!.*(trust|compan|firm|partnership|association|proprietor|legal\s+entit|llp|society|joint)).*(documents?\s+(are\s+)?(required|needed|necessary)|which\s+documents|what\s+documents)", "officially valid document ovd passport driving licence aadhaar pan"),
-    (r"name\s+(has\s+)?chang|change\s+(in|of)\s+(the\s+)?name|married|marriage", "gazette marriage certificate officially valid document name"),
-    (r"(validity|period).*(cheque|draft|pay\s*order)|(cheque|draft|pay\s*order).*(valid|period|stale)", "payment instruments cheques drafts pay orders presented beyond three months"),
-    (r"(modes?|ways?|methods?|options?)\b.*onboard|onboard.*(modes?|ways?|methods?)", "digital kyc process aadhaar otp offline verification certified copy video"),
-    (r"purposes?.*v-?cip|v-?cip.*(used|use\s+for|purposes?)", "may undertake v-cip to carry out cdd new customer onboarding conversion updation"),
-    (r"(second|another|each|every|new)\s+(account|product)|same\s+(lender|bank|nbfc|re)\b", "existing customer kyc compliant not required submit documents unless change identity address"),
-    (r"disab|\bpwds?\b|differently\s+abled", "persons with disabilities pwds customer acceptance policy denial facility"),
-    (r"demand\s+draft|pay\s*order|travell?ers?\s+cheque", "demand drafts issue payment cash debit account cheques 50,000"),
-]
+def _load_vocab():
+    """Everyday wording -> RBI wording lives in data/vocabulary.json (editable without touching code)."""
+    try:
+        v = json.loads((DATA / "vocabulary.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        v = {"terms": {}, "phrases": []}
+    return v.get("terms", {}), [(re.compile(p), w) for p, w in v.get("phrases", [])], v.get("anchors", [])
+
+
+SYN_RAW, PHRASE_SYN, EXTRA_ANCHORS = _load_vocab()
 OUT_OF_SCOPE = [  # entity types the project deliberately does not cover
     (r"small\s+finance\s+bank|\bsfb\b", "Small Finance Banks"),
     (r"payments?\s+bank", "Payments Banks"),
@@ -64,7 +54,7 @@ def stem(w):
     return w
 
 
-ANCHORS = {stem(w) for w in ANCHOR_WORDS}
+ANCHORS = {stem(w) for w in ANCHOR_WORDS} | {stem(w) for w in EXTRA_ANCHORS}
 SYN = {stem(k): v for k, v in SYN_RAW.items()}
 
 
@@ -95,6 +85,8 @@ class Index:
             self.bigrams.append(set(zip(tokens(c["text"]), tokens(c["text"])[1:])))
             sec = tokens(c.get("section", ""))
             self.sec_bigrams.append(set(zip(sec, sec[1:])))
+        self.cur_vocab = set().union(*(d.keys() for d, c in zip(self.docs, chunks) if c["status"] != "historical"))
+        self.sec_terms = [set(tokens(c.get("section", "") or "")) for c in chunks]
         self.len = [sum(d.values()) for d in self.docs]
         self.avg = sum(self.len) / max(1, len(self.len))
         df = Counter()
@@ -117,6 +109,18 @@ class Index:
                 s += self.idf.get(t, 0) * f * (k1 + 1) / (f + k1 * (1 - b + b * dl / self.avg))
         return s
 
+    def correct(self, q_raw):
+        """Fix typos by snapping unknown words to the closest word in the RBI text (e.g. 'frequecy' -> 'frequency')."""
+        if not hasattr(self, "_vocab"):
+            self._vocab = [t for t in self.idf if len(t) >= 5]
+        out = []
+        for t in q_raw:
+            if t in self.idf or t in SYN or len(t) < 5 or t.isdigit():
+                out.append(t); continue
+            m = [x for x in difflib.get_close_matches(t, self._vocab, n=3, cutoff=0.88) if abs(len(x) - len(t)) <= 1]
+            out.append(m[0] if m else t)
+        return out
+
     def phrase_bonus(self, i, q_raw):
         """Reward chunks where adjacent query words also appear adjacent (e.g. 'enhanced due diligence')."""
         pairs = set(zip(q_raw, q_raw[1:]))
@@ -131,25 +135,31 @@ class Index:
         q_raw = tokens(query)
         if not q_raw:
             return {"status": "refused", "reason": "Please ask a question about RBI KYC requirements.", "results": []}
+        q_raw = self.correct(q_raw)
+        unknown = [t for t in q_raw if t not in self.cur_vocab and t not in SYN and not t.isdigit()]
+        if len(unknown) / len(q_raw) > 0.4:
+            return {"status": "refused", "reason": "I could not match some of the words in your question to RBI's KYC Directions. Try rephrasing, or pick one of the suggested questions.", "unmatched": unknown[:5], "results": []}
         extra = [t for pat, words in PHRASE_SYN if re.search(pat, ql) for t in tokens(words)]
         q = list(dict.fromkeys(expand(q_raw) + extra))
         if not ANCHORS & set(q):
             return {"status": "refused", "reason": "This assistant only answers questions about RBI's KYC Directions for NBFCs and Commercial Banks.", "results": []}
-        scored = []
-        for i, c in enumerate(self.chunks):
-            if c["status"] == "historical" and not include_historical:
-                continue
-            if entity and c["entity"] not in (entity, "All REs (pre-consolidation)"):
-                continue
-            s = (self.score(i, q) + self.phrase_bonus(i, q_raw)) * STATUS_WEIGHT[c["status"]]
-            if s > 0:
-                scored.append((s, c.get("last_amended") or "", i))
-        scored.sort(key=lambda x: (-round(x[0], 6), x[1]), reverse=False)
+        cand = [i for i, c in enumerate(self.chunks)
+                if not (c["status"] == "historical" and not include_historical)
+                and not (entity and c["entity"] not in (entity, "All REs (pre-consolidation)"))]
+        w = lambda i: STATUS_WEIGHT[self.chunks[i]["status"]]
+        s_main = {i: (self.score(i, q) + self.phrase_bonus(i, q_raw)) * w(i) for i in cand}
+        # Tested alternatives (reciprocal-rank fusion with a literal-words ranker and a section-title ranker) scored
+        # lower on scripts/eval_retrieval.py (hit@5 0.83-0.89 vs 0.90), so a single ranker is kept.
+        scored = [(s_main[i], self.chunks[i].get("last_amended") or "", i) for i in cand if s_main[i] > 0]
+        scored.sort(key=lambda x: (-round(x[0], 6), x[1]))
+        best_main = max(s_main.values(), default=0.0)
         if not scored:
             return {"status": "refused", "reason": "No relevant RBI text found for this question.", "results": []}
-        top = scored[0]
+        top = (best_main,)
         top_terms = set().union(*(self.docs[x[2]].keys() for x in scored[:3]))
-        coverage = sum(1 for t in set(q_raw) if t in top_terms) / len(set(q_raw))
+        coverage = sum(1 for t in set(q_raw) if t in top_terms or any(stem(x) in top_terms for x in SYN.get(t, []))) / len(set(q_raw))
+        if extra and sum(1 for t in set(extra) if t in top_terms) / len(set(extra)) >= 0.5:
+            coverage = max(coverage, 0.75)     # a curated phrase rule fired and its RBI wording is in the best passages
         if top[0] < MIN_SCORE or coverage < MIN_COVERAGE:
             return {"status": "refused", "reason": "I could not find text in the RBI KYC Directions that answers this. Try rephrasing, or check the Directions directly.", "results": []}
         return {"status": "answered", "coverage": round(coverage, 2), "results": [self.cite(self.chunks[i], s) for s, _, i in scored[:k]]}

@@ -95,6 +95,9 @@ def handle_ask(method, headers, body, now=None):
     res["answer"] = summarise(res)
     if res["status"] == "answered":
         res["detail"] = build_detail(res, q, ENTITIES.get(ent))
+        res["clarify"] = clarification(q)
+    elif res["status"] == "refused":
+        res["suggestions"] = suggest(q)
     if res["status"] == "answered":
         gen = llm.summarise(q, res["results"])
         if gen:
@@ -111,6 +114,61 @@ def summarise(res):
     if len(text) > 700:
         cut = text[:700]; cut = cut[: max(cut.rfind(". "), 400) + 1]; text = cut + " …"
     return f"RBI says ({top['doc_title']}, paragraph {top['para_no']}): {text}"
+
+
+INTENTS = [  # what the user is trying to find out (rule based, deterministic)
+    ("change", r"what\s+(has\s+)?changed|amend|new(est)?|latest|updated?\b.*(rule|direction)|inserted|substituted|repeal"),
+    ("figure", r"how\s+(much|many|long|often|old)|threshold|limit|percent|percentage|timeline|within\s+(how|what)|frequency|period|deadline|years?\b|days?\b|lakh|amount|cap\b"),
+    ("documents", r"documents?|proof|\bovd\b|certificate|papers"),
+    ("definition", r"what\s+is|what\s+are|who\s+is|meaning|define|definition|explain"),
+    ("procedure", r"how\s+(to|do|can|should)|process|steps?|procedure|carried\s+out|onboard"),
+    ("applicability", r"\b(can|may|must|should|allowed|permitted|mandatory|required|need)\b"),
+]
+CUSTOMER_TYPES = r"individual|person|proprietor|sole|company|compan|partnership|firm|llp|trust|association|society|body\s+of|legal\s+entit|ngo|huf|minor|nri|non-?resident|foreign"
+CLARIFY = [  # (trigger, skip-if, prompt, options)
+    (r"documents?\s+(are\s+)?(required|needed|necessary)|which\s+documents|what\s+documents|kyc\s+documents", CUSTOMER_TYPES,
+     "The documents depend on who the customer is. Which one do you mean?",
+     [("Individual", "What documents are required for an individual customer?"), ("Sole proprietorship", "What documents are needed for a sole proprietorship?"),
+      ("Company", "What documents are needed for a company customer?"), ("Partnership firm", "What KYC applies to a partnership firm?"),
+      ("Trust / association", "What documents are needed for a trust or association?")]),
+    (r"beneficial\s+owner|\bubo\b|ultimate\s+owner", CUSTOMER_TYPES,
+     "The test differs by type of customer. Which one do you mean?",
+     [("Company", "Who is the beneficial owner of a company?"), ("Partnership firm", "What is the beneficial ownership threshold for a partnership firm?"),
+      ("Trust", "How is the beneficial owner of a trust identified?")]),
+]
+
+
+def classify_intent(q):
+    ql = q.lower()
+    for name, pat in INTENTS:
+        if re.search(pat, ql):
+            return name
+    return "general"
+
+
+def clarification(q):
+    ql = q.lower()
+    for trig, skip, prompt, opts in CLARIFY:
+        if re.search(trig, ql) and not re.search(skip, ql):
+            return {"prompt": prompt, "options": [{"label": l, "question": qq} for l, qq in opts]}
+    return None
+
+
+_FAQQ = None
+
+
+def suggest(q, n=3):
+    """'Did you mean' help when nothing answers the question: nearest verified FAQ questions."""
+    global _FAQQ
+    from pathlib import Path
+    from core.search import tokens as tok, expand, stem
+    if _FAQQ is None:
+        d = json.loads((Path(__file__).resolve().parent.parent / "data" / "faqs.json").read_text(encoding="utf-8"))
+        _FAQQ = [(it["q"], set(tok(it["q"]))) for t in d["topics"] for it in t["items"]]
+    ix = index()
+    qt = set(expand(ix.correct(tok(q))))
+    scored = sorted(((sum(ix.idf.get(t, 0) for t in qt & ts) / (1 + 0.1 * len(ts)), fq) for fq, ts in _FAQQ), reverse=True)
+    return [fq for sc, fq in scored[:n] if sc >= 2.5]
 
 
 def _trim(text, n):
@@ -159,7 +217,7 @@ def build_detail(res, query, entity_name):
         earlier = {"note": "Earlier position (2016 Master Direction, repealed on 28 Nov 2025 – historical context only; the 2025 Directions control).",
                    "reference": f"{hist['doc_title']}, paragraph {hist['para_no']}",
                    "amended_on": hist["change_dates"], "text": index().focus(hist["text"], query, 450), "source_url": hist["source_url"]}
-    return {"key_points": points, "what_changed": changed,
+    return {"intent": classify_intent(query), "key_points": points, "what_changed": changed,
             "what_changed_note": ("Amendments recorded by RBI on the cited paragraphs." if changed else
                                   "No amendment is recorded by RBI on the cited paragraphs in the version checked" + (f" ({'; '.join(versions)})." if versions else ".")),
             "earlier_position": earlier}

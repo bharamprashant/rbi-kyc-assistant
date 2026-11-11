@@ -1,0 +1,565 @@
+{
+"terms": {
+"vcip": [
+"videobased",
+"video"
+],
+"videokyc": [
+"vcip",
+"video"
+],
+"aadhar": [
+"aadhaar"
+],
+"ckyc": [
+"ckycr"
+],
+"kyc": [
+"kyc"
+],
+"ubo": [
+"beneficial",
+"owner"
+],
+"pep": [
+"politically",
+"exposed",
+"persons"
+],
+"edd": [
+"enhanced",
+"due",
+"diligence"
+],
+"sdd": [
+"simplified",
+"due",
+"diligence"
+],
+"cdd": [
+"customer",
+"due",
+"diligence"
+],
+"str": [
+"suspicious",
+"transaction"
+],
+"fiu": [
+"financial",
+"intelligence"
+],
+"threshold": [
+"percent",
+"ownership"
+],
+"selfie": [
+"live",
+"photograph",
+"photo",
+"liveness"
+],
+"photo": [
+"photograph",
+"live"
+],
+"picture": [
+"photograph",
+"photo"
+],
+"face": [
+"facial",
+"liveness",
+"photograph"
+],
+"liveness": [
+"spoof",
+"face",
+"live"
+],
+"facematch": [
+"face",
+"matching",
+"photograph"
+],
+"proprietorship": [
+"proprietary",
+"sole",
+"proprietor"
+],
+"sole": [
+"proprietary"
+],
+"retention": [
+"preservation",
+"maintenance",
+"years"
+],
+"retain": [
+"preservation",
+"maintenance"
+],
+"retained": [
+"preservation",
+"maintenance"
+],
+"preserved": [
+"maintenance",
+"years"
+],
+"keep": [
+"maintenance",
+"preservation"
+],
+"kept": [
+"maintenance",
+"preservation"
+],
+"store": [
+"maintenance",
+"preservation"
+],
+"stored": [
+"maintenance",
+"preservation"
+],
+"rekyc": [
+"periodic",
+"updation",
+"kyc"
+],
+"frequency": [
+"periodic",
+"updation",
+"years",
+"once",
+"every"
+],
+"interval": [
+"periodic",
+"updation",
+"years"
+],
+"redo": [
+"periodic",
+"updation"
+],
+"borrower": [
+"customer"
+],
+"lender": [
+"nbfc",
+"bank",
+"regulated"
+],
+"loan": [
+"customer",
+"account"
+],
+"coborrower": [
+"joint",
+"account",
+"holder",
+"customer"
+],
+"coapplicant": [
+"joint",
+"account",
+"holder",
+"customer"
+],
+"guarantor": [
+"customer",
+"authorised",
+"signatory"
+],
+"ngo": [
+"trust",
+"association",
+"society",
+"body",
+"individuals"
+],
+"society": [
+"association",
+"body",
+"individuals",
+"trust"
+],
+"club": [
+"association",
+"body",
+"individuals"
+],
+"dsa": [
+"third",
+"party",
+"agent",
+"business",
+"correspondent"
+],
+"agent": [
+"third",
+"party",
+"business",
+"correspondent"
+],
+"outsource": [
+"third",
+"party"
+],
+"outsourcing": [
+"third",
+"party"
+],
+"freeze": [
+"account",
+"restrict",
+"close",
+"sanction"
+],
+"frozen": [
+"account",
+"restrict",
+"close"
+],
+"block": [
+"account",
+"restrict",
+"close"
+],
+"blocked": [
+"account",
+"restrict",
+"close"
+],
+"terror": [
+"unscr",
+"designated",
+"individuals",
+"entities",
+"list",
+"terrorist"
+],
+"sanction": [
+"unscr",
+"designated",
+"list"
+],
+"sanctions": [
+"unscr",
+"designated",
+"list"
+],
+"ekyc": [
+"aadhaar",
+"otp",
+"authentication"
+],
+"otp": [
+"aadhaar",
+"otp",
+"authentication",
+"ekyc"
+],
+"mismatch": [
+"name",
+"change",
+"gazette",
+"marriage"
+],
+"surname": [
+"name",
+"change",
+"marriage",
+"gazette"
+],
+"msme": [
+"proprietor",
+"proprietary",
+"firm",
+"udyam"
+],
+"proprietor": [
+"proprietary",
+"firm"
+],
+"llp": [
+"partnership",
+"firm"
+],
+"ultimate": [
+"beneficial",
+"owner"
+],
+"owner": [
+"beneficial",
+"owner"
+],
+"shareholding": [
+"controlling",
+"ownership",
+"interest",
+"percent"
+],
+"fraud": [
+"suspicious",
+"transaction",
+"report"
+],
+"report": [
+"fiu",
+"suspicious",
+"transaction"
+],
+"reporting": [
+"fiu",
+"report"
+],
+"ctr": [
+"cash",
+"transaction",
+"report",
+"fiu"
+],
+"cash": [
+"cash",
+"transaction"
+],
+"lakh": [
+"rupees",
+"10"
+],
+"app": [
+"digital",
+"kyc",
+"process",
+"authorised",
+"officer"
+],
+"geotag": [
+"geo",
+"tag",
+"latitude",
+"longitude",
+"digital"
+],
+"geotagging": [
+"geo",
+"tag",
+"latitude",
+"longitude",
+"digital"
+],
+"staff": [
+"employees",
+"hiring",
+"training"
+],
+"employee": [
+"employees",
+"hiring",
+"training"
+],
+"training": [
+"employees",
+"hiring",
+"training"
+],
+"stale": [
+"beyond",
+"three",
+"months",
+"presented"
+],
+"remote": [
+"non",
+"face",
+"video",
+"otp",
+"digital"
+],
+"online": [
+"non",
+"face",
+"video",
+"otp",
+"digital"
+],
+"branch": [
+"face",
+"visit"
+],
+"id": [
+"officially",
+"valid",
+"document",
+"ovd"
+],
+"proof": [
+"officially",
+"valid",
+"document",
+"ovd",
+"address",
+"identity"
+],
+"proofs": [
+"officially",
+"valid",
+"document",
+"ovd"
+],
+"rent": [
+"leave",
+"licence",
+"agreement",
+"address",
+"deemed"
+],
+"electricity": [
+"utility",
+"bill",
+"address",
+"deemed"
+],
+"light": [
+"utility",
+"bill"
+],
+"refuse": [
+"reject",
+"deny",
+"customer",
+"acceptance"
+],
+"refuses": [
+"reject",
+"deny",
+"customer",
+"acceptance"
+],
+"reject": [
+"customer",
+"acceptance",
+"policy",
+"denial"
+]
+},
+"phrases": [
+[
+"small\\s+account",
+"simplified procedure unable produce documents self attested photograph"
+],
+[
+"^(?!.*(trust|compan|firm|partnership|association|proprietor|legal\\s+entit|llp|society|joint)).*(documents?\\s+(are\\s+)?(required|needed|necessary)|which\\s+documents|what\\s+documents)",
+"officially valid document ovd passport driving licence aadhaar pan"
+],
+[
+"name\\s+(has\\s+)?chang|change\\s+(in|of)\\s+(the\\s+)?name|married|marriage",
+"gazette marriage certificate officially valid document name"
+],
+[
+"(validity|period).*(cheque|draft|pay\\s*order)|(cheque|draft|pay\\s*order).*(valid|period|stale)",
+"payment instruments cheques drafts pay orders presented beyond three months"
+],
+[
+"(modes?|ways?|methods?|options?)\\b.*onboard|onboard.*(modes?|ways?|methods?)",
+"digital kyc process aadhaar otp offline verification certified copy video"
+],
+[
+"purposes?.*v-?cip|v-?cip.*(used|use\\s+for|purposes?)",
+"may undertake v-cip to carry out cdd new customer onboarding conversion updation"
+],
+[
+"(second|another|each|every|new)\\s+(account|product)|same\\s+(lender|bank|nbfc|re)\\b",
+"existing customer kyc compliant not required submit documents unless change identity address"
+],
+[
+"disab|\\bpwds?\\b|differently\\s+abled",
+"persons with disabilities pwds customer acceptance policy denial facility"
+],
+[
+"demand\\s+draft|pay\\s*order|travell?ers?\\s+cheque",
+"demand drafts issue payment cash debit account cheques 50,000"
+],
+[
+"form\\s*60",
+"form no 60 pan permanent account number not having"
+],
+[
+"no\\s+pan|without\\s+pan|pan\\s+(card\\s+)?(not|missing|unavailable)",
+"pan form no 60 permanent account number"
+],
+[
+"one\\s*time|occasional|walk\\s*in|non\\s*account",
+"walk-in customer occasional transaction 50,000"
+],
+[
+"upload.*(time|line|days|when)|(time|line|days).*upload",
+"ckycr upload records within days of commencement account based relationship"
+],
+[
+"(loan|amount|limit|cap).*(otp|ekyc|e-kyc)|(otp|ekyc|e-kyc).*(loan|amount|limit|cap|validity|year)",
+"aadhaar otp based e-kyc non face to face accounts total amount one year conditions"
+],
+[
+"how\\s+old|age\\s+of.*(bill|document)|not\\s+more\\s+than",
+"utility bill not more than two months old deemed ovd"
+],
+[
+"co-?\\s*borrower|co-?\\s*applicant|guarantor",
+"joint account holders customer due diligence all"
+],
+[
+"without\\s+(visiting|going|branch|meeting)|remote(ly)?|from\\s+home|contactless",
+"non face to face onboarding video v-cip otp digital kyc"
+],
+[
+"\\bcap\\b",
+"customer acceptance policy"
+],
+[
+"terror|sanction|blacklist|watch\\s*list",
+"unscr designated individuals entities list screening"
+],
+[
+"photo|selfie|picture|face",
+"live photograph digital kyc liveness face matching v-cip"
+]
+],
+"anchors": [
+"selfie",
+"photo",
+"photograph",
+"ekyc",
+"otp",
+"ubo",
+"pep",
+"edd",
+"sdd",
+"cdd",
+"str",
+"fiu",
+"ctr",
+"dsa",
+"ngo",
+"llp",
+"msme",
+"rekyc",
+"coborrower",
+"coapplicant",
+"guarantor",
+"unscr",
+"sanction",
+"sanctions",
+"terror",
+"vcip",
+"ckyc",
+"liveness",
+"cheque",
+"draft",
+"banker",
+"instrument"
+]
+}
