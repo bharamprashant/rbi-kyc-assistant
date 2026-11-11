@@ -255,3 +255,29 @@ def handle_faqs(method, headers):
         from pathlib import Path
         _FAQS = json.loads((Path(__file__).resolve().parent.parent / "data" / "faqs.json").read_text(encoding="utf-8"))
     return _resp(200, _FAQS)
+
+
+def handle_feedback(method, headers, body, opener=None):
+    """POST /api/feedback. Same-origin only; nothing about the user is stored except what they typed."""
+    from core import feedback
+    headers = {k.lower(): v for k, v in headers.items()}
+    if method != "POST":
+        return _resp(405, {"error": "Use POST."}, {"Allow": "POST"})
+    if "application/json" not in headers.get("content-type", ""):
+        return _resp(415, {"error": "Content-Type must be application/json."})
+    origin, host = headers.get("origin", ""), headers.get("host", "")
+    if not origin or re.sub(r"^https?://", "", origin) != host:
+        return _resp(403, {"error": "Cross-site requests are not allowed."})
+    if len(body) > feedback.MAX_BODY:
+        return _resp(413, {"error": "Request too large."})
+    if feedback.limited(client_id(headers)):
+        return _resp(429, {"error": "Too many feedback messages. Please try again later."}, {"Retry-After": "600"})
+    try:
+        data = json.loads(body.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError):
+        return _resp(400, {"error": "Body must be JSON."})
+    payload, err = feedback.validate(data)
+    if err:
+        return _resp(400, {"error": err})
+    status, out = feedback.submit(payload, **({"opener": opener} if opener else {}))
+    return _resp(status, out)

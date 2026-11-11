@@ -38,3 +38,6 @@ Researched practice for regulatory RAG (hybrid search, query rewriting/expansion
 - Typo correction against the RBI text, single BM25 ranker with phrase and section-title bonuses, refusal when key words are not in the Directions.
 - Intent label, clarifying options for broad questions (e.g. documents without customer type), and "did you mean" suggestions when nothing answers.
 - `scripts/eval_retrieval.py` + `data/eval_paraphrases.json`: 325 differently worded questions; CI fails if quality drops. Result: hit@5 0.80 -> 0.95 (casual wording 0.74 -> 0.92). Reciprocal-rank fusion with extra rankers was tested and scored lower, so it is not used.
+
+## Feedback loop
+Every answer has "Was this answer right?". A thumbs-down opens a short note box; it creates an issue in a private feedback repo (`FEEDBACK_REPO`). Triage: add the question and the RBI facts a correct answer needs to `data/eval_paraphrases.json`, fix `data/vocabulary.json` or ranking, and the CI evaluation keeps it fixed.

@@ -1,4 +1,4 @@
-import json, sys, unittest
+import json, os, sys, unittest
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -177,3 +177,62 @@ class Ui(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FeedbackTests(unittest.TestCase):
+    OK = {"content-type": "application/json", "origin": "https://site.example", "host": "site.example", "x-forwarded-for": "7.7.7.7"}
+
+    def setUp(self):
+        import core.feedback as fb
+        fb.reset_limits(); c.reset_limits(); self.fb = fb
+        for k in ("FEEDBACK_GITHUB_TOKEN", "FEEDBACK_REPO"):
+            os.environ.pop(k, None)
+
+    def post(self, body, headers=None, opener=None):
+        b = body if isinstance(body, bytes) else json.dumps(body).encode()
+        return c.handle_feedback("POST", headers or self.OK, b, opener=opener)
+
+    GOOD = {"question": "what is a selfie rule?", "verdict": "incorrect", "comment": "expected para 24", "shown": ["24", "27"], "status": "answered"}
+
+    def test_not_enabled_without_token(self):
+        self.assertEqual(self.post(self.GOOD)[0], 503)
+
+    def test_creates_issue_with_sanitised_text(self):
+        os.environ["FEEDBACK_GITHUB_TOKEN"] = "tok"; os.environ["FEEDBACK_REPO"] = "owner/private-feedback"
+        seen = {}
+
+        class R:
+            status = 201
+            def __enter__(s): return s
+            def __exit__(s, *a): return False
+
+        def opener(req, timeout=0):
+            seen["url"] = req.full_url; seen["body"] = json.loads(req.data); seen["h"] = dict(req.header_items()); return R()
+        bad = dict(self.GOOD, comment="ping @octocat see #12 <script>x</script> https://evil.example `x`")
+        self.assertEqual(self.post(bad, opener=opener)[0], 200)
+        body = seen["body"]["body"]
+        self.assertEqual(seen["url"], "https://api.github.com/repos/owner/private-feedback/issues")
+        self.assertNotIn("@octocat", body); self.assertNotIn("<script>", body); self.assertNotIn("https://evil", body); self.assertNotIn("#12", body)
+        self.assertIn("feedback", seen["body"]["labels"])
+        self.assertNotIn("7.7.7.7", json.dumps(seen["body"]))        # no IP stored
+        self.assertNotIn("tok", json.dumps(seen["body"]))
+
+    def test_validation_and_origin(self):
+        self.assertEqual(self.post(dict(self.GOOD, verdict="meh"))[0], 400)
+        self.assertEqual(self.post(dict(self.GOOD, question=""))[0], 400)
+        self.assertEqual(self.post(dict(self.GOOD, comment="x" * 501))[0], 400)
+        self.assertEqual(self.post(dict(self.GOOD, shown=["<b>"]))[0], 400)
+        self.assertEqual(self.post(b"not json")[0], 400)
+        self.assertEqual(self.post(self.GOOD, headers=dict(self.OK, origin="https://evil.example"))[0], 403)
+        no_origin = {k: v for k, v in self.OK.items() if k != "origin"}
+        self.assertEqual(self.post(self.GOOD, headers=no_origin)[0], 403)
+        self.assertEqual(c.handle_feedback("GET", self.OK, b"")[0], 405)
+        self.assertEqual(self.post(b"x" * 5000)[0], 413)
+
+    def test_rate_limited(self):
+        codes = [self.post(self.GOOD)[0] for _ in range(8)]
+        self.assertEqual(codes[-1], 429)
+
+    def test_ui_wires_feedback(self):
+        js = (ROOT / "public" / "app.js").read_text()
+        self.assertIn("/api/feedback", js); self.assertIn("Not correct", js)
