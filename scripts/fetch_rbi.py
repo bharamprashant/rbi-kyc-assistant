@@ -64,6 +64,7 @@ def main():
             try:
                 _, _, b = get(r["rbi_page_url"], a.user_agent)
                 found = PDF_RE.findall(b.decode("utf-8", "ignore"))
+                found = [u for u in found if not re.search(r'Accessibility|Utkarsh', u)]  # site-wide links
                 urls += [u for u in found if u not in urls]
                 time.sleep(a.delay)
             except Exception as e:
@@ -86,6 +87,8 @@ def main():
                     open(os.path.join(d, safe_name(u)), "wb").write(body)
                 rec.update(status=st, content_type=ct, bytes=len(body), is_pdf=ok,
                            sha256=hashlib.sha256(body).hexdigest() if ok else None)
+                if not ok:  # keep a short text snippet so a block page is recognisable in the log
+                    rec["snippet"] = re.sub(r'\s+', ' ', body[:1500].decode("utf-8", "ignore"))[:300]
             except urllib.error.HTTPError as e:
                 rec.update(status=e.code, error=str(e), is_pdf=False)
             except Exception as e:
