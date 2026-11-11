@@ -75,8 +75,8 @@ class Packaging(unittest.TestCase):
     def test_handlers_import_without_api_dir_on_path(self):
         """Regression: Vercel imports api/*.py by file path; shared code must resolve from the project root."""
         import subprocess
-        code = ("import importlib.util,sys\\n"
-                "for f in ('ask','changes'):\\n"
-                f" s=importlib.util.spec_from_file_location('m'+f,r'{ROOT}/api/'+f+'.py'); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); assert m.handler\\n")
+        code = ("import importlib.util,sys\n"
+                "for f in ('ask','changes'):\n"
+                f" s=importlib.util.spec_from_file_location('m'+f,r'{ROOT}/api/'+f+'.py'); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); assert m.handler\n")
         r = subprocess.run([sys.executable, "-I", "-c", code], cwd="/", capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr[-300:])
