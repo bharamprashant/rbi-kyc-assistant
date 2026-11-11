@@ -36,6 +36,12 @@ class Bank(unittest.TestCase):
             got = {r["para_no"] for r in IX.search(q, entity=e)["results"][:5]}
             self.assertTrue(got & paras, (q, got))
 
+    def test_everyday_wording_maps_to_rbi_terms(self):
+        """Regression: 'selfie' is not RBI's word (it says live photograph / liveness)."""
+        for q in ("what are regulations for SELFIE in kyc", "selfie kyc", "Is face liveness needed in video kyc?"):
+            r = IX.search(q); self.assertEqual(r["status"], "answered", q)
+            self.assertTrue({"24", "27"} & {x["para_no"] for x in r["results"][:4]}, q)
+
     def test_off_topic_still_refused(self):
         for q in ("What is the best biryani recipe?", "How do I file my GST return?", "Who won the cricket match?"):
             self.assertNotEqual(ask(q)[1]["status"], "answered", q)

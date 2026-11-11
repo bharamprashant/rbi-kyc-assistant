@@ -1,86 +1,346 @@
 [
-["basics","What is KYC and why do regulated entities have to do it?"],
-["basics","When is KYC mandatory for a customer?"],
-["basics","Who is a walk-in customer?"],
-["basics","Do I need to submit KYC documents again for a second account with the same lender?"],
-["basics","What is customer due diligence?"],
-["basics","What is a customer acceptance policy?"],
-["basics","What is the KYC policy that an NBFC must have?"],
-["basics","Who is the designated director and principal officer for KYC?"],
-["basics","What is the money laundering risk assessment a lender must do?"],
-["documents","What documents are officially valid documents for KYC?"],
-["documents","What are deemed OVDs for proof of address?"],
-["documents","How old can a utility bill be as address proof?"],
-["documents","Is PAN mandatory for KYC or can Form 60 be used?"],
-["documents","Is Aadhaar mandatory for KYC?"],
-["documents","What is a small account and what are its limits?"],
-["documents","What if the customer's name changed after marriage?"],
-["documents","Is KYC needed for every holder of a joint account?"],
-["documents","Can a customer give a different current address than the one on the OVD?"],
-["onboarding","What are the ways to onboard an individual customer?"],
-["onboarding","What is V-CIP and what are its technical requirements?"],
-["onboarding","Who can conduct a V-CIP session and what checks are needed?"],
-["onboarding","Can Aadhaar OTP based e-KYC be used for loans?"],
-["onboarding","What is digital KYC and how is it carried out?"],
-["onboarding","Is a customer's consent needed for Aadhaar authentication?"],
-["onboarding","What are the limits on accounts opened with OTP based e-KYC?"],
-["onboarding","What is non face-to-face onboarding and what extra safeguards apply?"],
-["onboarding","Can KYC be done through a business correspondent or agent?"],
-["onboarding","Can KYC verification by a third party be relied upon?"],
-["ckyc","What is a KYC identifier?"],
-["ckyc","Do we have to upload KYC records to CKYCR?"],
-["ckyc","When can a regulated entity download KYC records from CKYCR?"],
-["ckyc","Within what time must KYC data be uploaded to the Central KYC Records Registry?"],
-["ckyc","Is customer consent needed to use the KYC identifier?"],
-["updation","How often must KYC be updated for high, medium and low risk customers?"],
-["updation","What is periodic updation of KYC?"],
-["updation","Can KYC be updated online or by video without visiting a branch?"],
-["updation","What happens if a customer does not update KYC?"],
-["updation","Is a self declaration enough when there is no change in KYC information?"],
-["updation","What if address changes — how is it updated?"],
-["updation","What are the KYC updation rules for a minor who becomes a major?"],
-["updation","Can accounts be frozen or restricted for non-updation of KYC?"],
-["risk","How should customers be categorised by risk?"],
-["risk","What is ongoing due diligence and transaction monitoring?"],
-["risk","What is enhanced due diligence and when is it required?"],
-["risk","What is simplified due diligence?"],
-["risk","What are the rules for politically exposed persons?"],
-["risk","How should accounts of high risk customers be monitored?"],
-["risk","What are the requirements for correspondent banking relationships?"],
-["risk","What is required for wire transfers?"],
-["risk","What is the rule on cash transactions and reporting thresholds?"],
-["risk","How do sanctions lists and UNSCR screening apply to customers?"],
-["entities","Who is the beneficial owner of a company?"],
-["entities","What is the beneficial ownership threshold for a partnership firm?"],
-["entities","How is the beneficial owner of a trust identified?"],
-["entities","What documents are needed for a company customer?"],
-["entities","What documents are needed for a sole proprietorship?"],
-["entities","What KYC applies to a partnership firm?"],
-["entities","What documents are needed for a trust or association?"],
-["entities","Can a listed company skip beneficial owner identification?"],
-["entities","What KYC is required for a self help group or joint liability group?"],
-["entities","What KYC is required for non-resident or foreign customers?"],
-["entities","What KYC applies to customers who are legal entities with a foreign element?"],
-["records","How long must KYC records be retained?"],
-["records","How long are transaction records to be preserved?"],
-["records","What information must be kept for each transaction?"],
-["records","What records must be kept after a business relationship ends?"],
-["reporting","What is a suspicious transaction report and when must it be filed?"],
-["reporting","What reports must be filed with FIU-IND and by when?"],
-["reporting","What is a cash transaction report?"],
-["reporting","Is tipping off the customer allowed after filing an STR?"],
-["reporting","What are the penalties or consequences for non-compliance with KYC?"],
-["nbfc","What KYC rules apply when an NBFC lends through a digital platform or co-lending partner?"],
-["nbfc","Is KYC required for loan disbursal to a third party or for a loan against property?"],
-["nbfc","What are the KYC obligations of an NBFC on its branches and group companies?"],
-["nbfc","What are the requirements for hiring and training employees for KYC?"],
-["nbfc","Does the NBFC board need to approve the KYC policy?"],
-["nbfc","What must an NBFC do for internal audit of KYC compliance?"],
-["nbfc","What is the requirement to apply group-wide KYC policies?"],
-["change","What changed in the KYC Directions in 2025?"],
-["change","What was inserted in the NBFC KYC Directions on 29 December 2025?"],
-["change","What changed in the commercial banks KYC Directions in 2026?"],
-["change","Which Master Direction on KYC was repealed in November 2025?"],
-["change","What was the earlier rule on beneficial owner threshold for partnership firms and what is it now?"],
-["change","What did the June 2025 revised instructions change for KYC updation?"]
+[
+"basics",
+"What is KYC and why do regulated entities have to do it?"
+],
+[
+"basics",
+"When is KYC mandatory for a customer?"
+],
+[
+"basics",
+"Who is a walk-in customer?"
+],
+[
+"basics",
+"Do I need to submit KYC documents again for a second account with the same lender?"
+],
+[
+"basics",
+"What is customer due diligence?"
+],
+[
+"basics",
+"What is a customer acceptance policy?"
+],
+[
+"basics",
+"What is the KYC policy that an NBFC must have?"
+],
+[
+"basics",
+"Who is the designated director and principal officer for KYC?"
+],
+[
+"basics",
+"What is the money laundering risk assessment a lender must do?"
+],
+[
+"documents",
+"What documents are officially valid documents for KYC?"
+],
+[
+"documents",
+"What are deemed OVDs for proof of address?"
+],
+[
+"documents",
+"How old can a utility bill be as address proof?"
+],
+[
+"documents",
+"Is PAN mandatory for KYC or can Form 60 be used?"
+],
+[
+"documents",
+"Is Aadhaar mandatory for KYC?"
+],
+[
+"documents",
+"What is a small account and what are its limits?"
+],
+[
+"documents",
+"What if the customer's name changed after marriage?"
+],
+[
+"documents",
+"Is KYC needed for every holder of a joint account?"
+],
+[
+"documents",
+"Can a customer give a different current address than the one on the OVD?"
+],
+[
+"onboarding",
+"What are the ways to onboard an individual customer?"
+],
+[
+"onboarding",
+"What is V-CIP and what are its technical requirements?"
+],
+[
+"onboarding",
+"Who can conduct a V-CIP session and what checks are needed?"
+],
+[
+"onboarding",
+"Can Aadhaar OTP based e-KYC be used for loans?"
+],
+[
+"onboarding",
+"What is digital KYC and how is it carried out?"
+],
+[
+"onboarding",
+"Is a customer's consent needed for Aadhaar authentication?"
+],
+[
+"onboarding",
+"What are the limits on accounts opened with OTP based e-KYC?"
+],
+[
+"onboarding",
+"What is non face-to-face onboarding and what extra safeguards apply?"
+],
+[
+"onboarding",
+"Can KYC be done through a business correspondent or agent?"
+],
+[
+"onboarding",
+"Can KYC verification by a third party be relied upon?"
+],
+[
+"ckyc",
+"What is a KYC identifier?"
+],
+[
+"ckyc",
+"Do we have to upload KYC records to CKYCR?"
+],
+[
+"ckyc",
+"When can a regulated entity download KYC records from CKYCR?"
+],
+[
+"ckyc",
+"Within what time must KYC data be uploaded to the Central KYC Records Registry?"
+],
+[
+"ckyc",
+"Is customer consent needed to use the KYC identifier?"
+],
+[
+"updation",
+"How often must KYC be updated for high, medium and low risk customers?"
+],
+[
+"updation",
+"What is periodic updation of KYC?"
+],
+[
+"updation",
+"Can KYC be updated online or by video without visiting a branch?"
+],
+[
+"updation",
+"What happens if a customer does not update KYC?"
+],
+[
+"updation",
+"Is a self declaration enough when there is no change in KYC information?"
+],
+[
+"updation",
+"What if address changes — how is it updated?"
+],
+[
+"updation",
+"What are the KYC updation rules for a minor who becomes a major?"
+],
+[
+"updation",
+"Can accounts be frozen or restricted for non-updation of KYC?"
+],
+[
+"risk",
+"How should customers be categorised by risk?"
+],
+[
+"risk",
+"What is ongoing due diligence and transaction monitoring?"
+],
+[
+"risk",
+"What is enhanced due diligence and when is it required?"
+],
+[
+"risk",
+"What is simplified due diligence?"
+],
+[
+"risk",
+"What are the rules for politically exposed persons?"
+],
+[
+"risk",
+"How should accounts of high risk customers be monitored?"
+],
+[
+"risk",
+"What are the requirements for correspondent banking relationships?"
+],
+[
+"risk",
+"What is required for wire transfers?"
+],
+[
+"risk",
+"What is the rule on cash transactions and reporting thresholds?"
+],
+[
+"risk",
+"How do sanctions lists and UNSCR screening apply to customers?"
+],
+[
+"entities",
+"Who is the beneficial owner of a company?"
+],
+[
+"entities",
+"What is the beneficial ownership threshold for a partnership firm?"
+],
+[
+"entities",
+"How is the beneficial owner of a trust identified?"
+],
+[
+"entities",
+"What documents are needed for a company customer?"
+],
+[
+"entities",
+"What documents are needed for a sole proprietorship?"
+],
+[
+"entities",
+"What KYC applies to a partnership firm?"
+],
+[
+"entities",
+"What documents are needed for a trust or association?"
+],
+[
+"entities",
+"Can a listed company skip beneficial owner identification?"
+],
+[
+"entities",
+"What KYC is required for a self help group or joint liability group?"
+],
+[
+"entities",
+"What KYC is required for non-resident or foreign customers?"
+],
+[
+"entities",
+"What KYC applies to customers who are legal entities with a foreign element?"
+],
+[
+"records",
+"How long must KYC records be retained?"
+],
+[
+"records",
+"How long are transaction records to be preserved?"
+],
+[
+"records",
+"What information must be kept for each transaction?"
+],
+[
+"records",
+"What records must be kept after a business relationship ends?"
+],
+[
+"reporting",
+"What is a suspicious transaction report and when must it be filed?"
+],
+[
+"reporting",
+"What reports must be filed with FIU-IND and by when?"
+],
+[
+"reporting",
+"What is a cash transaction report?"
+],
+[
+"reporting",
+"Is tipping off the customer allowed after filing an STR?"
+],
+[
+"reporting",
+"What are the penalties or consequences for non-compliance with KYC?"
+],
+[
+"nbfc",
+"What KYC rules apply when an NBFC lends through a digital platform or co-lending partner?"
+],
+[
+"nbfc",
+"Is KYC required for loan disbursal to a third party or for a loan against property?"
+],
+[
+"nbfc",
+"What are the KYC obligations of an NBFC on its branches and group companies?"
+],
+[
+"nbfc",
+"What are the requirements for hiring and training employees for KYC?"
+],
+[
+"nbfc",
+"Does the NBFC board need to approve the KYC policy?"
+],
+[
+"nbfc",
+"What must an NBFC do for internal audit of KYC compliance?"
+],
+[
+"nbfc",
+"What is the requirement to apply group-wide KYC policies?"
+],
+[
+"change",
+"What changed in the KYC Directions in 2025?"
+],
+[
+"change",
+"What was inserted in the NBFC KYC Directions on 29 December 2025?"
+],
+[
+"change",
+"What changed in the commercial banks KYC Directions in 2026?"
+],
+[
+"change",
+"Which Master Direction on KYC was repealed in November 2025?"
+],
+[
+"change",
+"What was the earlier rule on beneficial owner threshold for partnership firms and what is it now?"
+],
+[
+"change",
+"What did the June 2025 revised instructions change for KYC updation?"
+],
+[
+"onboarding",
+"What are the rules for a selfie or live photograph in KYC?"
+],
+[
+"onboarding",
+"Is liveness check and face matching required in digital KYC?"
+]
 ]
