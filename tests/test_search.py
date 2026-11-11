@@ -22,6 +22,12 @@ class Search(unittest.TestCase):
         r = IX.search("V-CIP requirements for video based onboarding", entity="NBFC")
         self.assertEqual(r["status"], "answered")
 
+    def test_record_retention_finds_record_management_chapter(self):
+        for q in ("How long must KYC records be preserved?", "record retention period for customer documents"):
+            r = IX.search(q, entity="NBFC")
+            self.assertEqual(r["status"], "answered", q)
+            self.assertTrue(any("Record Management" in x["chapter"] for x in r["results"][:2]), (q, [(x["para_no"], x["chapter"][:20]) for x in r["results"][:3]]))
+
     def test_periodic_updation(self):
         r = IX.search("periodic updation of KYC for high risk customers", entity="NBFC")
         self.assertEqual(r["status"], "answered")

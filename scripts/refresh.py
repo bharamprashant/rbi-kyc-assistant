@@ -53,7 +53,7 @@ def main():
     for f, why in failed:
         print(f"FAILED {f}: {why}", file=sys.stderr)
     if changed:
-        for s in ("parse_directions.py", "build_changelog.py"):
+        for s in ("parse_directions.py", "build_changelog.py", "build_faqs.py"):
             subprocess.run([sys.executable, "-I", str(ROOT / "scripts" / s)], check=True)
         print("CHANGED: " + ", ".join(changed))
     if failed and not changed:

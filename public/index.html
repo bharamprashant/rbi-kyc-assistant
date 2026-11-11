@@ -4,26 +4,45 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RBI KYC Assistant for NBFCs and Commercial Banks</title>
-<meta name="description" content="Cited answers from RBI's KYC Directions for NBFCs and commercial banks. Not legal advice.">
+<meta name="description" content="Cited answers from RBI's KYC Directions for NBFCs and commercial banks, with what changed. Not legal advice.">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header><h1>RBI KYC Assistant</h1>
-<p>Cited answers from RBI's KYC Directions (2025) for <strong>NBFCs</strong> and <strong>Commercial Banks</strong>. An independent project, not affiliated with RBI. Not legal advice.</p></header>
-<main>
-<nav role="tablist"><button id="tab-ask" role="tab" aria-selected="true">Ask</button><button id="tab-changes" role="tab" aria-selected="false">What changed</button></nav>
-<section id="ask">
-<form id="f"><label for="q">Your question</label>
-<textarea id="q" maxlength="400" rows="3" required placeholder="e.g. Who is responsible for verifying identity when relying on CKYCR records?"></textarea>
-<label for="entity">Entity type</label>
-<select id="entity"><option value="">Both</option><option value="nbfc">NBFC</option><option value="commercial_banks">Commercial Banks</option></select>
-<label class="inline"><input type="checkbox" id="hist"> Include the repealed 2016 Master Direction (history only)</label>
-<button type="submit">Search RBI text</button></form>
-<div id="out" aria-live="polite"></div>
-</section>
-<section id="changes" hidden><div id="chg" aria-live="polite"></div></section>
+<a class="skip" href="#q">Skip to question</a>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">For NBFCs &amp; Commercial Banks</p>
+    <h1>RBI KYC Assistant</h1>
+    <p class="lede">Ask about RBI's KYC Directions and get RBI's own words, with the paragraph, the date, and what changed. The newest circular always controls.</p>
+    <form id="f" class="ask">
+      <label for="q" class="sr">Your question</label>
+      <textarea id="q" maxlength="400" rows="2" required placeholder="e.g. How often must KYC be updated for high-risk customers?"></textarea>
+      <div class="row">
+        <div class="seg" role="radiogroup" aria-label="Entity type">
+          <input type="radio" name="ent" id="e-both" value="" checked><label for="e-both">Both</label>
+          <input type="radio" name="ent" id="e-nbfc" value="nbfc"><label for="e-nbfc">NBFC</label>
+          <input type="radio" name="ent" id="e-cb" value="commercial_banks"><label for="e-cb">Commercial Banks</label>
+        </div>
+        <label class="chk"><input type="checkbox" id="hist"> Include repealed 2016 text</label>
+        <button type="submit" class="primary">Search RBI text</button>
+      </div>
+    </form>
+  </div>
+</header>
+<main class="wrap">
+  <nav class="tabs" role="tablist"><button id="tab-ask" role="tab" aria-selected="true">Answers &amp; FAQs</button><button id="tab-changes" role="tab" aria-selected="false">What changed</button></nav>
+  <section id="ask">
+    <div id="out" aria-live="polite"></div>
+    <div id="faq">
+      <div id="new-box" hidden><h2>New &amp; amended</h2><div id="new" class="chips"></div></div>
+      <h2>Frequently asked</h2>
+      <p class="muted">Questions are written from topics in public KYC FAQs, and each one is checked against the current RBI text. They refresh when RBI's text changes.</p>
+      <div id="topics"></div>
+    </div>
+  </section>
+  <section id="changes" hidden><h2>Change history</h2><div id="chg" aria-live="polite"></div></section>
 </main>
-<footer><p>Answers are RBI's own words with the source, paragraph and date. If nothing relevant is found, the assistant says so instead of guessing. The newest RBI circular always controls; check the linked source.</p></footer>
+<footer class="wrap"><p>An independent project, not affiliated with RBI. Answers quote RBI's published Directions with source, paragraph and date; if nothing relevant is found the assistant says so instead of guessing. Not legal advice: check the linked RBI source and your compliance team.</p></footer>
 <script src="/app.js"></script>
 </body>
 </html>
