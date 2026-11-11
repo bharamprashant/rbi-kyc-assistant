@@ -26,6 +26,17 @@ SYN_RAW = {"vcip": ["videobased", "video"], "videokyc": ["vcip", "video"], "aadh
            "retention": ["preservation", "maintenance", "years"], "retain": ["preservation", "maintenance"],
            "retained": ["preservation", "maintenance"], "preserved": ["maintenance", "years"], "keep": ["maintenance", "preservation"],
            "kept": ["maintenance", "preservation"], "store": ["maintenance", "preservation"], "stored": ["maintenance", "preservation"]}
+PHRASE_SYN = [  # everyday phrasing -> RBI's own wording (regex on the lower-cased query, extra search words)
+    (r"small\s+account", "simplified procedure unable produce documents self attested photograph"),
+    (r"^(?!.*(trust|compan|firm|partnership|association|proprietor|legal\s+entit|llp|society|joint)).*(documents?\s+(are\s+)?(required|needed|necessary)|which\s+documents|what\s+documents)", "officially valid document ovd passport driving licence aadhaar pan"),
+    (r"name\s+(has\s+)?chang|change\s+(in|of)\s+(the\s+)?name|married|marriage", "gazette marriage certificate officially valid document name"),
+    (r"(validity|period).*(cheque|draft|pay\s*order)|(cheque|draft|pay\s*order).*(valid|period|stale)", "payment instruments cheques drafts pay orders presented beyond three months"),
+    (r"(modes?|ways?|methods?|options?)\b.*onboard|onboard.*(modes?|ways?|methods?)", "digital kyc process aadhaar otp offline verification certified copy video"),
+    (r"purposes?.*v-?cip|v-?cip.*(used|use\s+for|purposes?)", "may undertake v-cip to carry out cdd new customer onboarding conversion updation"),
+    (r"(second|another|each|every|new)\s+(account|product)|same\s+(lender|bank|nbfc|re)\b", "existing customer kyc compliant not required submit documents unless change identity address"),
+    (r"disab|\bpwds?\b|differently\s+abled", "persons with disabilities pwds customer acceptance policy denial facility"),
+    (r"demand\s+draft|pay\s*order|travell?ers?\s+cheque", "demand drafts issue payment cash debit account cheques 50,000"),
+]
 OUT_OF_SCOPE = [  # entity types the project deliberately does not cover
     (r"small\s+finance\s+bank|\bsfb\b", "Small Finance Banks"),
     (r"payments?\s+bank", "Payments Banks"),
@@ -120,7 +131,8 @@ class Index:
         q_raw = tokens(query)
         if not q_raw:
             return {"status": "refused", "reason": "Please ask a question about RBI KYC requirements.", "results": []}
-        q = list(dict.fromkeys(expand(q_raw)))
+        extra = [t for pat, words in PHRASE_SYN if re.search(pat, ql) for t in tokens(words)]
+        q = list(dict.fromkeys(expand(q_raw) + extra))
         if not ANCHORS & set(q):
             return {"status": "refused", "reason": "This assistant only answers questions about RBI's KYC Directions for NBFCs and Commercial Banks.", "results": []}
         scored = []

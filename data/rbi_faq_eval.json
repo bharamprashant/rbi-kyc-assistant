@@ -1,0 +1,299 @@
+[
+{
+"n": 1,
+"q": "What is Know Your Customer (KYC)?",
+"facts": [
+"identity",
+"address",
+"money.?laundering|terror"
+]
+},
+{
+"n": 2,
+"q": "Is KYC mandatory? When must a regulated entity carry out KYC?",
+"facts": [
+"account.based relationship",
+"50,000",
+"international money transfer",
+"doubt"
+]
+},
+{
+"n": 3,
+"q": "Who is a walk-in customer?",
+"facts": [
+"walk-in customer",
+"account.based relationship"
+]
+},
+{
+"n": 4,
+"q": "Does a customer have to furnish KYC documents for each account opened with the same lender?",
+"facts": [
+"existing",
+"change"
+]
+},
+{
+"n": 5,
+"q": "What documents are required for opening an account by an individual?",
+"facts": [
+"passport",
+"driving licen",
+"aadhaar",
+"voter",
+"NREGA|job card",
+"PAN|Form No. 60"
+]
+},
+{
+"n": 6,
+"q": "What is a small account?",
+"facts": [
+"small account|simplified procedure",
+"self-attested photograph",
+"twelve months|12 months"
+]
+},
+{
+"n": 7,
+"q": "What are deemed OVDs for proof of address?",
+"facts": [
+"utility bill",
+"two months",
+"property or municipal tax|municipal tax",
+"pension",
+"three months"
+]
+},
+{
+"n": 8,
+"q": "Customer lives in Chennai but OVD has a Delhi address; can account be opened?",
+"facts": [
+"deemed",
+"three months|current address"
+]
+},
+{
+"n": 9,
+"q": "If name changed and the OVD does not show the new name, how can the account be opened?",
+"facts": [
+"gazette",
+"marriage certificate"
+]
+},
+{
+"n": 10,
+"q": "Is Aadhaar number mandatory for KYC?",
+"facts": [
+"voluntar",
+"benefit|subsid|section 7"
+]
+},
+{
+"n": 11,
+"q": "Is fresh KYC needed when an account is transferred from one branch to another?",
+"facts": [
+"branch",
+"transfer"
+]
+},
+{
+"n": 12,
+"q": "Is KYC required for all holders of a joint account?",
+"facts": [
+"joint"
+]
+},
+{
+"n": 13,
+"q": "What are the different modes for onboarding individual customers?",
+"facts": [
+"face-to-face|face to face",
+"non face-to-face|non-face-to-face",
+"V-CIP|video",
+"OTP",
+"digital kyc"
+]
+},
+{
+"n": 14,
+"q": "What is a KYC Identifier?",
+"facts": [
+"KYC Identifier",
+"CKYCR|Central KYC Records Registry"
+]
+},
+{
+"n": 15,
+"q": "Can the KYC Identifier be used for other purposes like periodic updation?",
+"facts": [
+"KYC Identifier",
+"updation|verification"
+]
+},
+{
+"n": 16,
+"q": "Is customer consent required to use the KYC identifier?",
+"facts": [
+"consent",
+"KYC Identifier"
+]
+},
+{
+"n": 17,
+"q": "How can a customer obtain a KYC Identifier from CKYCR?",
+"facts": [
+"KYC Identifier",
+"share|communicat|provide|intimat"
+]
+},
+{
+"n": 18,
+"q": "When can KYC records downloaded from CKYCR not be relied on and fresh documents asked for?",
+"facts": [
+"incomplete",
+"validity",
+"change in the information|change in"
+]
+},
+{
+"n": 19,
+"q": "What is Video-based Customer Identification Process (V-CIP)?",
+"facts": [
+"video",
+"live",
+"consent"
+]
+},
+{
+"n": 20,
+"q": "Is blinking of eyes or facial gestures mandatory for V-CIP liveness check?",
+"facts": [
+"liveness",
+"blink|gesture|smil"
+]
+},
+{
+"n": 21,
+"q": "What are the purposes for which V-CIP can be used?",
+"facts": [
+"V-CIP",
+"new customer|onboarding",
+"updation"
+]
+},
+{
+"n": 22,
+"q": "How often must KYC be updated for high, medium and low risk customers?",
+"facts": [
+"two years",
+"eight years",
+"ten|10 years"
+]
+},
+{
+"n": 23,
+"q": "What are the parameters for risk categorisation of a customer?",
+"facts": [
+"risk",
+"low|medium|high"
+]
+},
+{
+"n": 24,
+"q": "What are the modes for periodic updation of KYC for individual customers?",
+"facts": [
+"self-declaration|self declaration",
+"no change",
+"address"
+]
+},
+{
+"n": 25,
+"q": "What documents are needed for periodic updation of KYC?",
+"facts": [
+"self-declaration|self declaration",
+"change"
+]
+},
+{
+"n": 26,
+"q": "Must the lender give an acknowledgement after KYC updation documents are submitted?",
+"facts": [
+"acknowledg"
+]
+},
+{
+"n": 27,
+"q": "Must lenders give advance notice and reminders to customers for periodic updation?",
+"facts": [
+"intimat|notice|remind",
+"updation"
+]
+},
+{
+"n": 28,
+"q": "What happens if periodic updation of KYC is not done after reminders?",
+"facts": [
+"updation",
+"notice|account"
+]
+},
+{
+"n": 29,
+"q": "Can a demand draft or pay order be purchased against cash?",
+"facts": [
+"50,000",
+"cash|demand draft|pay order"
+],
+"scope": "commercial_banks_only"
+},
+{
+"n": 30,
+"q": "What is the validity period for presenting cheques, drafts and pay orders?",
+"facts": [
+"three months"
+],
+"scope": "commercial_banks_only"
+},
+{
+"n": 31,
+"q": "What should a customer do if KYC documents submitted at account opening are modified or renewed?",
+"facts": [
+"30 days",
+"updat"
+]
+},
+{
+"n": 32,
+"q": "Are all onboarding modes available to persons with disabilities?",
+"facts": [
+"disab"
+]
+},
+{
+"n": 33,
+"q": "Can a KYC application or updation be rejected automatically?",
+"facts": [
+"denial|reject",
+"review|official|automat"
+]
+},
+{
+"n": 34,
+"q": "Is a thumb impression accepted in place of signature for KYC?",
+"facts": [
+"thumb impression"
+]
+},
+{
+"n": 35,
+"q": "What is an inoperative account and how is it reactivated?",
+"facts": [
+"inoperative|dormant",
+"KYC"
+],
+"scope": "not_in_directions"
+}
+]

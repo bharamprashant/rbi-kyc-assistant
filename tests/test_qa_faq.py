@@ -47,6 +47,29 @@ class Bank(unittest.TestCase):
             self.assertNotEqual(ask(q)[1]["status"], "answered", q)
 
 
+class RbiFaqEval(unittest.TestCase):
+    """RBI's own FAQ (9 Jun 2025, 35 questions). Each probe lists facts RBI's answer states; the facts must appear
+    in the top-5 retrieved paragraphs of the current Directions. Bank-only or out-of-corpus items must not answer for NBFC / at all."""
+    def test_rbi_faq_facts_found_in_retrieved_text(self):
+        import re
+        ev = json.loads((ROOT / "data" / "rbi_faq_eval.json").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(len(ev), 35); bad = []
+        for e in ev:
+            for ent in ("NBFC", "Commercial Banks"):
+                r = IX.search(e["q"], entity=ent); sc = e.get("scope")
+                if sc == "not_in_directions" or (sc == "commercial_banks_only" and ent == "NBFC"):
+                    if sc == "not_in_directions" and r["status"] == "answered":
+                        bad.append((e["n"], ent, "should refuse"))
+                    continue
+                if r["status"] != "answered":
+                    bad.append((e["n"], ent, "refused")); continue
+                txt = " ".join(x["text"] for x in r["results"][:5])
+                lost = [f for f in e["facts"] if not re.search(f, txt, re.I)]
+                if lost:
+                    bad.append((e["n"], ent, lost))
+        self.assertEqual(bad, [])
+
+
 class Detail(unittest.TestCase):
     def setUp(self):
         c.reset_limits()
